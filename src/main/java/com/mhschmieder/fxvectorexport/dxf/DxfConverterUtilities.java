@@ -36,7 +36,7 @@ import com.mhschmieder.fxdxfparser.reader.DxfLoader;
 import com.mhschmieder.fxgraphics.paint.ColorUtilities;
 import com.mhschmieder.jgraphics.DrawMode;
 import com.mhschmieder.jgraphics.shape.AttributedShapeContainer;
-import com.mhschmieder.jphysics.DistanceUnit;
+import com.mhschmieder.jphysics.measure.DistanceUnit;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
