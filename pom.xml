@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>jxlab</artifactId>
+        <groupId>com.mhschmieder</groupId>
+        <version>1.0.0</version>
+    </parent>
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mhschmieder</groupId>
 	<artifactId>fxvectorexport</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>fxvectorexport</name>
-	<url>https://github.com/mhschmieder/fxconverter</url>
+	<url>https://github.com/mhschmieder/fxvectorexport </url>
 	<description>A toolkit for converting JavaFX based graphics to various vector graphics output formats such as EPS, SVG and PDF.</description>
 
 	<licenses>
@@ -36,46 +38,31 @@
 		</developer>
 	</developers>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
 	<dependencies>
         <dependency>
             <groupId>com.mhschmieder</groupId>
             <artifactId>jphysics</artifactId>
-            <version>0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>1.0.1</version>
         </dependency>
 		<dependency>
 			<groupId>com.mhschmieder</groupId>
 			<artifactId>jgraphics</artifactId>
-			<version>0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mhschmieder</groupId>
 			<artifactId>jcontrols</artifactId>
-			<version>0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+			<version>1.0.0</version>
 		</dependency>
         <dependency>
             <groupId>com.mhschmieder</groupId>
             <artifactId>fxgraphics</artifactId>
-            <version>0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.mhschmieder</groupId>
-            <artifactId>fxcadgraphics</artifactId>
-            <version>0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-		<dependency>
-			<groupId>com.mhschmieder</groupId>
-			<artifactId>jepswriter</artifactId>
-			<version>0.1-SNAPSHOT</version>
-			<scope>compile</scope>
+        	<dependency>
+		<groupId>com.mhschmieder</groupId>
+		<artifactId>jepswriter</artifactId>
+		<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.orsonpdf</groupId>
@@ -107,7 +94,7 @@
 		<dependency>
 			<groupId>com.mhschmieder</groupId>
 			<artifactId>fxdxfimport</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <dependency>
@@ -136,72 +123,7 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<compilerArgs>
-						<arg>-Xlint:deprecation</arg>
-						<arg>-Xlint:unchecked</arg>
-					</compilerArgs>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<show>private</show>
-					<docfilessubdirs>true</docfilessubdirs>
-					<linksource>true</linksource>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-                        <configuration>
-                            <additionalOptions>-Xdoclint:none</additionalOptions>
-                        </configuration>
-					</execution>
-				</executions>
-			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                  <reportPlugins>
-                    <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-javadoc-plugin</artifactId>
-                      <configuration>
-                        <additionalparam>-Xdoclint:none</additionalparam>
-                      </configuration>
-                    </plugin>
-                  </reportPlugins>
-                </configuration>
-            </plugin>			
-            <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.2.0</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
