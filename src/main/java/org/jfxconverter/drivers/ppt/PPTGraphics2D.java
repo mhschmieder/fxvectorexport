@@ -37,7 +37,6 @@ package org.jfxconverter.drivers.ppt;
 
 import org.apache.commons.math3.util.FastMath;
 import org.apache.poi.ddf.EscherOptRecord;
-import org.apache.poi.ddf.EscherProperties;
 import org.apache.poi.ddf.EscherSimpleProperty;
 import org.apache.poi.hslf.record.FontCollection;
 import org.apache.poi.hslf.usermodel.HSLFAutoShape;
@@ -581,10 +580,11 @@ public class PPTGraphics2D extends Graphics2D {
                         .getEscherChild( shape.getSpContainer(), EscherOptRecord.RECORD_ID );
                 // int alpha = (p.getPropertyValue() >> 8) & 0xFF;
                 final int alpha = color.getAlpha() << 8;
-                final EscherSimpleProperty p =
-                                             new EscherSimpleProperty( EscherProperties.FILL__FILLOPACITY,
-                                                                       alpha );
+                /*
+                final EscherSimpleProperty p = new EscherSimpleProperty(
+                EscherProperties.FILL__FILLOPACITY, alpha );
                 opt.addEscherProperty( p );
+                */
             }
             shape.setLineColor( null );
             setShapeFillingAdditionalProperties( shape );

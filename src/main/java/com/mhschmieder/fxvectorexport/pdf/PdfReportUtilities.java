@@ -30,15 +30,15 @@
  */
 package com.mhschmieder.fxvectorexport.pdf;
 
-import com.mhschmieder.jgraphics.GraphicsUtilities;
 import com.mhschmieder.jgraphics.color.ColorMode;
-import com.orsonpdf.PDFDocument;
-import com.orsonpdf.PDFGraphics2D;
-import com.orsonpdf.PDFHints;
-import com.orsonpdf.Page;
+import com.mhschmieder.jgraphics.util.GraphicsUtilities;
 import javafx.geometry.Bounds;
 import javafx.print.Paper;
 import javafx.scene.Node;
+import org.jfree.pdf.PDFDocument;
+import org.jfree.pdf.PDFGraphics2D;
+import org.jfree.pdf.PDFHints;
+import org.jfree.pdf.Page;
 import org.jfxconverter.JFXConverter;
 
 import java.awt.geom.Rectangle2D;

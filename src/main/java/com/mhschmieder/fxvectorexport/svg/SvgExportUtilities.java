@@ -30,14 +30,14 @@
  */
 package com.mhschmieder.fxvectorexport.svg;
 
-import com.mhschmieder.jgraphics.GraphicsUtilities;
 import com.mhschmieder.jgraphics.color.ColorMode;
+import com.mhschmieder.jgraphics.util.GraphicsUtilities;
 import javafx.geometry.Bounds;
 import javafx.print.Paper;
 import javafx.scene.Node;
 import org.apache.commons.math3.util.FastMath;
-import org.jfree.graphics2d.svg.SVGGraphics2D;
-import org.jfree.graphics2d.svg.SVGHints;
+import org.jfree.svg.SVGGraphics2D;
+import org.jfree.svg.SVGHints;
 import org.jfxconverter.JFXConverter;
 
 import java.io.BufferedWriter;

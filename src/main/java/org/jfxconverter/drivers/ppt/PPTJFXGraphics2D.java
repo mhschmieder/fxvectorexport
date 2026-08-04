@@ -40,7 +40,6 @@ import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
-import org.apache.poi.ddf.EscherProperties;
 import org.apache.poi.hslf.usermodel.HSLFAutoShape;
 import org.apache.poi.hslf.usermodel.HSLFFreeformShape;
 import org.apache.poi.hslf.usermodel.HSLFGroupShape;
@@ -423,6 +422,7 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
         final int red = ( int ) ( 255 * jfxColor.getRed() );
         final int alpha = Units.doubleToFixedPoint( jfxColor.getOpacity() * 0.5d );
         final int rgb = new Color( red, green, blue, 0 ).getRGB();
+        /*
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__TYPE, 2 ); // 2
                                                                           // for
                                                                           // outer
@@ -430,14 +430,18 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__COLOR, rgb );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SHADOWOBSURED, 131074 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OPACITY, alpha );
+        */
+
         // shadow offset
         final int swidth = Units.doubleToFixedPoint( dshadow.getWidth() / 2 );
 
+        /*
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__WEIGHT, swidth );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETX, 0 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETY, 0 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEXTOX, 66847 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEYTOY, 66847 );
+        */
     }
 
     /**
@@ -455,18 +459,23 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
         final int red = ( int ) ( 255 * jfxColor.getRed() );
         final int alpha = Units.doubleToFixedPoint( jfxColor.getOpacity() * 0.5d );
         final int rgb = new Color( red, green, blue, 0 ).getRGB();
+        /*
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__TYPE, 2 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__COLOR, rgb );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SHADOWOBSURED, 131074 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OPACITY, alpha );
+        */
+
         // shadow offset
         final int swidth = Units.doubleToFixedPoint( ishadow.getWidth() / 2 );
         final int scale = Units.doubleToFixedPoint( 0.95 );
 
+        /*
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__WEIGHT, swidth );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETX, 0 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETY, 0 );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEXTOX, scale );
         shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEYTOY, scale );
+        */
     }
 }
