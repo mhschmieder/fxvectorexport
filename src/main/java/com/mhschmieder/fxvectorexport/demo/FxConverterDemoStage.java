@@ -33,6 +33,9 @@ package com.mhschmieder.fxvectorexport.demo;
 import com.mhschmieder.fxvectorexport.eps.EpsExportUtilities;
 import com.mhschmieder.fxvectorexport.pdf.PdfReportUtilities;
 import com.mhschmieder.fxvectorexport.svg.SvgExportUtilities;
+
+import java.io.File;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -44,8 +47,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
 
 /**
  * {@code FxConverterDemoStage} is an example of a JavaFX {@link Stage} whose
@@ -61,9 +62,8 @@ import java.io.File;
  * non-proprietary code in the author's commercial application that could be
  * safely extracted for public consumption.
  *
- * @version 1.0
- *
  * @author Mark Schmieder
+ * @version 1.0
  */
 public final class FxConverterDemoStage extends Stage {
 
@@ -101,16 +101,23 @@ public final class FxConverterDemoStage extends Stage {
      */
     private void initStage() {
         // Add a quick-and-dirty toolbar just to test the export feature.
-        final Button epsExportButton = new Button( "Export to EPS" ); //$NON-NLS-1$
-        final Button pdfreportButton = new Button( "Export to PDF" ); //$NON-NLS-1$
-        final Button svgExportButton = new Button( "Export to SVG" ); //$NON-NLS-1$
+        final Button epsExportButton
+                = new Button( "Export to EPS" ); //$NON-NLS-1$
+        final Button pdfreportButton
+                = new Button( "Export to PDF" ); //$NON-NLS-1$
+        final Button svgExportButton
+                = new Button( "Export to SVG" ); //$NON-NLS-1$
         final ToolBar exportToolBar = new ToolBar();
         final Region spacer1 = new Region();
         final Region spacer2 = new Region();
         HBox.setHgrow( spacer1, Priority.ALWAYS );
         HBox.setHgrow( spacer2, Priority.ALWAYS );
         exportToolBar.getItems()
-                .addAll( epsExportButton, spacer1, pdfreportButton, spacer2, svgExportButton );
+                     .addAll( epsExportButton,
+                              spacer1,
+                              pdfreportButton,
+                              spacer2,
+                              svgExportButton );
 
         // Make the primary layout element, and add it to the content pane.
         converterDemoPane = new FxConverterDemoPane();
@@ -145,8 +152,11 @@ public final class FxConverterDemoStage extends Stage {
                 // Transcode this window to AWT to export to EPS.
                 EpsExportUtilities.createDocument( file,
                                                    converterDemoPane,
-                                                   "Fake EPS Title", //$NON-NLS-1$
-                                                   "Saved from FxConverterDemoApplication" ); //$NON-NLS-1$
+                                                   "Fake EPS Title", //$NON
+                        // -NLS-1$
+                                                   "Saved from "
+                                                   +
+                                                   "FxConverterDemoApplication" ); //$NON-NLS-1$
             }
         } );
 
@@ -161,8 +171,11 @@ public final class FxConverterDemoStage extends Stage {
                 // Transcode this window to AWT to export to PDF.
                 PdfReportUtilities.createDocument( file,
                                                    converterDemoPane,
-                                                   "Fake PDF Title", //$NON-NLS-1$
-                                                   "Saved from FxConverterDemoApplication" ); //$NON-NLS-1$
+                                                   "Fake PDF Title", //$NON
+                        // -NLS-1$
+                                                   "Saved from "
+                                                   +
+                                                   "FxConverterDemoApplication" ); //$NON-NLS-1$
             }
         } );
 
@@ -175,9 +188,11 @@ public final class FxConverterDemoStage extends Stage {
             final File file = fileChooser.showSaveDialog( this );
             if ( file != null ) {
                 // Transcode this window to AWT to export to SVG.
-                SvgExportUtilities.createDocument( file, converterDemoPane, "Fake SVG Title" ); //$NON-NLS-1$
+                SvgExportUtilities.createDocument( file,
+                                                   converterDemoPane,
+                                                   "Fake SVG Title" ); //$NON
+                // -NLS-1$
             }
         } );
     }
-
 }

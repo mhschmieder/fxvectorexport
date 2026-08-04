@@ -50,9 +50,8 @@ import javafx.scene.text.FontWeight;
  * non-proprietary code in the author's commercial application that could be
  * safely extracted for public consumption.
  *
- * @version 1.0
- *
  * @author Mark Schmieder
+ * @version 1.0
  */
 public final class FxConverterDemoPane extends BorderPane {
 
@@ -87,7 +86,7 @@ public final class FxConverterDemoPane extends BorderPane {
      *
      * @since 1.0
      */
-    @SuppressWarnings("nls")
+    @SuppressWarnings( "nls" )
     private void initPane() {
         // Make three labels to display in an asymmetric grid, as an example of
         // typical application panel layouts that will need to export to vector
@@ -135,5 +134,4 @@ public final class FxConverterDemoPane extends BorderPane {
         // Give some insets so things aren't jammed up against the borders.
         setPadding( new Insets( 16d ) );
     }
-
 }

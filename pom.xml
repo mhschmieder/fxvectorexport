@@ -1,90 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>jxlab</artifactId>
         <groupId>com.mhschmieder</groupId>
         <version>1.0.0</version>
     </parent>
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>fxvectorexport</artifactId>
-	<version>1.0.0</version>
-	<packaging>jar</packaging>
+    <artifactId>fxvectorexport</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
-	<name>fxvectorexport</name>
-	<url>https://github.com/mhschmieder/fxvectorexport </url>
-	<description>A toolkit for converting JavaFX based graphics to various vector graphics output formats such as EPS, SVG and PDF.</description>
+    <name>fxvectorexport</name>
+    <url>https://github.com/mhschmieder/fxvectorexport</url>
+    <description>A toolkit for converting JavaFX based graphics to various
+        vector graphics output formats such as EPS, SVG and PDF.
+    </description>
 
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>https://opensource.org/licenses/MIT</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-	<scm>
-		<url>https://github.com/mhschmieder/fxvectorexport</url>
-		<connection>scm:git:git://github.com/mhschmieder/fxvectorexport.git</connection>
-		<developerConnection>scm:git:git@github.com:mhschmieder/fxvectorexport.git</developerConnection>
-	</scm>
+    <scm>
+        <url>https://github.com/mhschmieder/fxvectorexport</url>
+        <connection>scm:git:git://github.com/mhschmieder/fxvectorexport.git
+        </connection>
+        <developerConnection>
+            scm:git:git@github.com:mhschmieder/fxvectorexport.git
+        </developerConnection>
+    </scm>
 
-	<developers>
-		<developer>
-			<email>markhschmieder@gmail.com</email>
-			<name>Mark Schmieder</name>
-			<url>https://github.com/mhschmieder</url>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <email>markhschmieder@gmail.com</email>
+            <name>Mark Schmieder</name>
+            <url>https://github.com/mhschmieder</url>
+        </developer>
+    </developers>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.mhschmieder</groupId>
-			<artifactId>fxdxfimport</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mhschmieder</groupId>
-			<artifactId>fxgraphics</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-controls</artifactId>
-			<version>25.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mhschmieder</groupId>
-			<artifactId>jcontrols</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mhschmieder</groupId>
-			<artifactId>jepswriter</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>org.jfree.pdf</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>org.jfree.svg</artifactId>
-			<version>5.0.7</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jfxconverter</groupId>
-			<artifactId>jfxconverter</artifactId>
-			<version>0.24</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mhschmieder</groupId>
-			<artifactId>jgraphics</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-		<dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.mhschmieder</groupId>
+            <artifactId>fxdxfimport</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mhschmieder</groupId>
+            <artifactId>fxgraphics</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>25.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mhschmieder</groupId>
+            <artifactId>jcontrols</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mhschmieder</groupId>
+            <artifactId>jepswriter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>org.jfree.pdf</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>org.jfree.svg</artifactId>
+            <version>5.0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfxconverter</groupId>
+            <artifactId>jfxconverter</artifactId>
+            <version>0.24</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mhschmieder</groupId>
+            <artifactId>jgraphics</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>com.mhschmieder</groupId>
             <artifactId>jphysics</artifactId>
             <version>1.0.1</version>
@@ -125,52 +132,64 @@
         </dependency>
     </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>3.1.1</version>
-				<executions>
-					<execution>
-						<id>install-jfx-jar</id>
-						<phase>validate</phase>
-						<goals><goal>install-file</goal></goals>
-						<configuration>
-							<file>${project.basedir}/dependencies/jfxConverter.jar</file>
-							<groupId>org.jfxconverter</groupId>
-							<artifactId>jfxconverter</artifactId>
-							<version>0.24</version>
-							<packaging>jar</packaging>
-						</configuration>
-					</execution>
-					<execution>
-						<id>install-mdi-core-jar</id>
-						<phase>validate</phase>
-						<goals><goal>install-file</goal></goals>
-						<configuration>
-							<file>${project.basedir}/dependencies/MDIUtilities-core-LGPL.jar</file>
-							<groupId>org.mdiutil</groupId>
-							<artifactId>mdiutilities-core</artifactId>
-							<version>0.24</version>
-							<packaging>jar</packaging>
-						</configuration>
-					</execution>
-					<execution>
-						<id>install-mdi-ui-jar</id>
-						<phase>validate</phase>
-						<goals><goal>install-file</goal></goals>
-						<configuration>
-							<file>${project.basedir}/dependencies/MDIUtilities-ui-LGPL.jar</file>
-							<groupId>org.mdiutil</groupId>
-							<artifactId>mdiutilities-ui</artifactId>
-							<version>0.24</version>
-							<packaging>jar</packaging>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>install-jfx-jar</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>
+                                ${project.basedir}/dependencies/jfxConverter.jar
+                            </file>
+                            <groupId>org.jfxconverter</groupId>
+                            <artifactId>jfxconverter</artifactId>
+                            <version>0.24</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-mdi-core-jar</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>
+                                ${project.basedir}/dependencies/MDIUtilities-core-LGPL.jar
+                            </file>
+                            <groupId>org.mdiutil</groupId>
+                            <artifactId>mdiutilities-core</artifactId>
+                            <version>0.24</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-mdi-ui-jar</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>
+                                ${project.basedir}/dependencies/MDIUtilities-ui-LGPL.jar
+                            </file>
+                            <groupId>org.mdiutil</groupId>
+                            <artifactId>mdiutilities-ui</artifactId>
+                            <version>0.24</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

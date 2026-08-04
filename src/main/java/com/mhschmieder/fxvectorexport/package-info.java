@@ -29,11 +29,6 @@
  * Project: https://github.com/mhschmieder/fxconverter
  */
 /**
- * This package contains top-level utility classes for the FxConverter
- * Library.
- *
- * @version 1.0
- *
- * @author Mark Schmieder
+ * This package contains top-level utility classes for the FxConverter Library.
  */
 package com.mhschmieder.fxvectorexport;

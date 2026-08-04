@@ -30,10 +30,11 @@
  */
 package com.mhschmieder.fxvectorexport;
 
-import javafx.scene.shape.Shape;
 import org.jfxconverter.utils.JFXShapeUtilities;
 
 import java.util.List;
+
+import javafx.scene.shape.Shape;
 
 /**
  * {@code ConverterUtilities} is a utility class for methods that help convert
@@ -42,14 +43,17 @@ import java.util.List;
 public final class ConverterUtilities {
 
     /**
-     * The default constructor is disabled, as this is a static utilities class.
+     * The default constructor is disabled, as this is a static utilities
+     * class.
      */
-    private ConverterUtilities() {}
+    private ConverterUtilities() {
+    }
 
     // Use JFXConverter to transcode a collection of JavaFX Shapes to AWT.
     public static java.awt.Shape getVectorGraphicsAwt( final List< Shape > shapes ) {
-        final java.awt.geom.GeneralPath shapesAwt =
-                                                  new java.awt.geom.GeneralPath( java.awt.geom.Path2D.WIND_EVEN_ODD );
+        final java.awt.geom.GeneralPath shapesAwt
+                =
+                new java.awt.geom.GeneralPath( java.awt.geom.Path2D.WIND_EVEN_ODD );
         for ( final Shape shape : shapes ) {
             // Use JFXConverter to transcode the JavaFX graphics to AWT.
             final java.awt.Shape shapeAwt = JFXShapeUtilities.getShape( shape );
@@ -58,5 +62,4 @@ public final class ConverterUtilities {
 
         return shapesAwt;
     }
-
 }

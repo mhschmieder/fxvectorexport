@@ -34,9 +34,6 @@ import com.mhschmieder.jepswriter.EpsDocument;
 import com.mhschmieder.jepswriter.graphics.EpsGraphics2D;
 import com.mhschmieder.jepswriter.graphics.EpsRenderingHints;
 import com.mhschmieder.jgraphics.color.ColorMode;
-import javafx.geometry.Bounds;
-import javafx.print.Paper;
-import javafx.scene.Node;
 import org.jfxconverter.JFXConverter;
 
 import java.io.BufferedWriter;
@@ -45,43 +42,43 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import javafx.geometry.Bounds;
+import javafx.print.Paper;
+import javafx.scene.Node;
+
 /**
  * {@code EpsExportUtilities} is a utility class for methods that export a
  * JavaFX Scene Graph {@link Node} to an EPS Document via transcoding to AWT
  * using {@link JFXConverter} as a wrapper for {@link EpsGraphics2D}.
  *
- * @version 1.0
- *
  * @author Mark Schmieder
+ * @version 1.0
  */
 public final class EpsExportUtilities {
 
     /**
-     * The default constructor is disabled, as this is a static utilities class.
+     * The default constructor is disabled, as this is a static utilities
+     * class.
      */
-    private EpsExportUtilities() {}
+    private EpsExportUtilities() {
+    }
 
     /**
      * Creates the EPS Document corresponding to the {@link Node}, and writes it
      * to the provided {@link File}, using UTF-8 encoding due to the need to
      * handle locale sensitive characters for the EPS Title and content.
      * <p>
-     * This minimally specified entry point defaults to North American Letter
-     * as the target page paper size and orientation, for clients that don't
-     * want to bother specifying it or querying it either from the user or the
+     * This minimally specified entry point defaults to North American Letter as
+     * the target page paper size and orientation, for clients that don't want
+     * to bother specifying it or querying it either from the user or the
      * current Page Layout. It also presumes that RGB output is wanted, and
      * vectorized text (especially so that rotated text is rotated in EPS).
      *
-     * @param file
-     *            The {@link File} destination for writing the EPS content
-     * @param node
-     *            The {@link Node} to convert to AWT and then export to EPS
-     * @param title
-     *            The {@link String} to use as the EPS Document's title
-     * @param creator
-     *            The {@link String} to use as the EPS Document's creator
+     * @param file    The {@link File} destination for writing the EPS content
+     * @param node    The {@link Node} to convert to AWT and then export to EPS
+     * @param title   The {@link String} to use as the EPS Document's title
+     * @param creator The {@link String} to use as the EPS Document's creator
      * @return The status of whether EPS Document creation succeeded or not
-     *
      * @since 1.0
      */
     public static boolean createDocument( final File file,
@@ -111,29 +108,26 @@ public final class EpsExportUtilities {
      * to the provided {@link File}, using UTF-8 encoding due to the need to
      * handle locale sensitive characters for the EPS Title and content.
      *
-     * @param file
-     *            The {@link File} destination for writing the EPS content
-     * @param node
-     *            The {@link Node} to convert to AWT and then export to EPS
-     * @param title
-     *            The {@link String} to use as the EPS Document's title
-     * @param creator
-     *            The {@link String} to use as the EPS Document's creator
-     * @param pageWidth
-     *            The target page width, in points (1/72 inch)
-     * @param pageHeight
-     *            The target page height, in points (1/72 inch)
-     * @param colorMode
-     *            The {@link ColorMode} to use, compatible with EPS specs
-     * @param useVectorizedText
-     *            Set to {@code true} if Vectorized Text Mode is desired;
-     *            {@code false} otherwise (that is, if text is to be rendered as
-     *            strings, sometimes referred to as Basic Text Mode)
+     * @param file              The {@link File} destination for writing the EPS
+     *                          content
+     * @param node              The {@link Node} to convert to AWT and then
+     *                          export to EPS
+     * @param title             The {@link String} to use as the EPS Document's
+     *                          title
+     * @param creator           The {@link String} to use as the EPS Document's
+     *                          creator
+     * @param pageWidth         The target page width, in points (1/72 inch)
+     * @param pageHeight        The target page height, in points (1/72 inch)
+     * @param colorMode         The {@link ColorMode} to use, compatible with
+     *                          EPS specs
+     * @param useVectorizedText Set to {@code true} if Vectorized Text Mode is
+     *                          desired; {@code false} otherwise (that is, if
+     *                          text is to be rendered as strings, sometimes
+     *                          referred to as Basic Text Mode)
      * @return The status of whether EPS Document creation succeeded or not
-     *
      * @since 1.0
      */
-    @SuppressWarnings("nls")
+    @SuppressWarnings( "nls" )
     public static boolean createDocument( final File file,
                                           final Node node,
                                           final String title,
@@ -150,11 +144,14 @@ public final class EpsExportUtilities {
         // overall system-neutrality and locale-sensitivity of text data. As EPS
         // does not support UTF-16, which is the default character set for Java,
         // we must use {@link OutputStreamWriter} instead of {@link FileWriter}.
-        try ( final FileOutputStream fileOutputStream = new FileOutputStream( file );
-                final OutputStreamWriter outputStreamWriter =
-                                                            new OutputStreamWriter( fileOutputStream,
-                                                                                    "UTF-8" );
-                final BufferedWriter bufferedWriter = new BufferedWriter( outputStreamWriter ) ) {
+        try ( final FileOutputStream fileOutputStream = new FileOutputStream(
+                file );
+              final OutputStreamWriter outputStreamWriter =
+                      new OutputStreamWriter(
+                      fileOutputStream,
+                      "UTF-8" );
+              final BufferedWriter bufferedWriter = new BufferedWriter(
+                      outputStreamWriter ) ) {
             // Write the EPS contents indirectly via JFXConverter.
             fileSaved = createDocument( bufferedWriter,
                                         node,
@@ -177,26 +174,25 @@ public final class EpsExportUtilities {
      * to the provided {@link Writer} (usually a Character Stream based
      * {@link OutputStreamWriter} class) using EpsToolkit.
      *
-     * @param writer
-     *            The wrapped {@link Writer} for channeling the EPS content
-     * @param node
-     *            The {@link Node} to convert to AWT and then export to EPS
-     * @param title
-     *            The {@link String} to use as the EPS Document's title
-     * @param creator
-     *            The {@link String} to use as the EPS Document's creator
-     * @param pageWidth
-     *            The target page width, always in points (1/72 inch)
-     * @param pageHeight
-     *            The target page height, always in points (1/72 inch)
-     * @param colorMode
-     *            The {@link ColorMode} to use, compatible with EPS specs
-     * @param useVectorizedText
-     *            Set to {@code true} if Vectorized Text Mode is desired;
-     *            {@code false} otherwise (that is, if text is to be rendered as
-     *            strings, sometimes referred to as Basic Text Mode)
+     * @param writer            The wrapped {@link Writer} for channeling the
+     *                          EPS content
+     * @param node              The {@link Node} to convert to AWT and then
+     *                          export to EPS
+     * @param title             The {@link String} to use as the EPS Document's
+     *                          title
+     * @param creator           The {@link String} to use as the EPS Document's
+     *                          creator
+     * @param pageWidth         The target page width, always in points (1/72
+     *                          inch)
+     * @param pageHeight        The target page height, always in points (1/72
+     *                          inch)
+     * @param colorMode         The {@link ColorMode} to use, compatible with
+     *                          EPS specs
+     * @param useVectorizedText Set to {@code true} if Vectorized Text Mode is
+     *                          desired; {@code false} otherwise (that is, if
+     *                          text is to be rendered as strings, sometimes
+     *                          referred to as Basic Text Mode)
      * @return The status of whether EPS Document creation succeeded or not
-     *
      * @since 1.0
      */
     public static boolean createDocument( final Writer writer,
@@ -238,8 +234,10 @@ public final class EpsExportUtilities {
         // Vectorize the text, to avoid missing fonts and to allow more
         // flexibility in how to work with text in downstream applications.
         final Object textRenderingHint = useVectorizedText
-            ? EpsRenderingHints.VALUE_TEXT_RENDERING_MODE_VECTOR
-            : EpsRenderingHints.VALUE_TEXT_RENDERING_MODE_TEXT;
+                                         ?
+                                         EpsRenderingHints.VALUE_TEXT_RENDERING_MODE_VECTOR
+                                         :
+                                         EpsRenderingHints.VALUE_TEXT_RENDERING_MODE_TEXT;
         epsGraphics.setRenderingHint( EpsRenderingHints.KEY_TEXT_RENDERING_MODE,
                                       textRenderingHint );
 
@@ -270,5 +268,4 @@ public final class EpsExportUtilities {
 
         return fileSaved;
     }
-
 }// class EpsExportUtilities

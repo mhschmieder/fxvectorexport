@@ -30,8 +30,6 @@
  */
 package com.mhschmieder.fxvectorexport.ppt;
 
-import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import org.apache.poi.hslf.usermodel.HSLFSlide;
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 import org.apache.poi.hslf.usermodel.HSLFTextBox;
@@ -47,37 +45,40 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+
 /**
  * {@code PptExportUtilities} is a utility class for methods that export a
  * JavaFX Scene Graph {@link Node} to a PPT Document via transcoding to AWT
  * using {@link JFXConverter} as a wrapper for {@link PPTJFXGraphics2D}.
  *
- * @version 1.0
- *
  * @author Mark Schmieder
+ * @version 1.0
  */
 public final class PptExportUtilities {
 
     /**
-     * The default constructor is disabled, as this is a static utilities class.
+     * The default constructor is disabled, as this is a static utilities
+     * class.
      */
-    private PptExportUtilities() {}
+    private PptExportUtilities() {
+    }
 
     /**
      * Creates the PPT Document corresponding to the {@link Node}, and writes it
      * to the provided {@link File}, using default UTF-16 encoding due to the
-     * need to handle locale sensitive characters for the PPT Title and content.
+     * need to handle locale sensitive characters for the PPT Title and
+     * content.
      *
-     * @param file
-     *            The {@link File} destination for writing the PPT content
-     * @param node
-     *            The {@link Node} to convert to AWT and then to PPT
-     * @param title
-     *            The {@link String} to use as the PPT Document's title
-     * @param useExtendedConversion
-     *            true for an extended conversion
+     * @param file                  The {@link File} destination for writing the
+     *                              PPT content
+     * @param node                  The {@link Node} to convert to AWT and then
+     *                              to PPT
+     * @param title                 The {@link String} to use as the PPT
+     *                              Document's title
+     * @param useExtendedConversion true for an extended conversion
      * @return The status of whether this PPT export succeeded or not
-     *
      * @since 1.0
      */
     public static boolean createDocument( final File file,
@@ -97,15 +98,20 @@ public final class PptExportUtilities {
         // overall system-neutrality and locale-sensitivity of text data. As
         // Apache POI only supports Output Streams vs. Writers, we must use a
         // FileOutputStream here instead of a FileWriter.
-        try ( final FileOutputStream fileOutputStream = new FileOutputStream( file );
-                final BufferedOutputStream bufferedOutputStream =
-                                                                new BufferedOutputStream( fileOutputStream ) ) {
+        try ( final FileOutputStream fileOutputStream = new FileOutputStream(
+                file );
+              final BufferedOutputStream bufferedOutputStream =
+                      new BufferedOutputStream(
+                      fileOutputStream ) ) {
             // Write the PPT contents indirectly via JFXConverter.
             //
             // As OutputStream implements Closeable, try-with-resources
             // auto-closes and auto-flushes the document, so there is no need to
             // do so here explicitly; though it does no harm.
-            fileSaved = createDocument( bufferedOutputStream, node, title, useExtendedConversion );
+            fileSaved = createDocument( bufferedOutputStream,
+                                        node,
+                                        title,
+                                        useExtendedConversion );
         }
         catch ( final IOException ioe ) {
             ioe.printStackTrace();
@@ -118,17 +124,14 @@ public final class PptExportUtilities {
      * Creates the PPT Document corresponding to the {@link Node}, and writes it
      * to the provided {@link OutputStream}, using Apache POI.
      *
-     * @param outputStream
-     *            The wrapped {@link OutputStream} for channeling the PDF
-     *            content
-     * @param node
-     *            The {@link Node} to convert to AWT and then to PPT
-     * @param title
-     *            The {@link String} to use as the PPT Document's title
-     * @param useExtendedConversion
-     *            true for an extended conversion
+     * @param outputStream          The wrapped {@link OutputStream} for
+     *                              channeling the PDF content
+     * @param node                  The {@link Node} to convert to AWT and then
+     *                              to PPT
+     * @param title                 The {@link String} to use as the PPT
+     *                              Document's title
+     * @param useExtendedConversion true for an extended conversion
      * @return The status of whether this PPT export succeeded or not
-     *
      * @since 1.0
      */
     public static boolean createDocument( final OutputStream outputStream,
@@ -156,8 +159,16 @@ public final class PptExportUtilities {
             // that cause run-time class-not-found exceptions on account of some
             // incompatible competing versions of some dependency JAR's.
             final PPTGraphics2D pptGraphics = useExtendedConversion
-                ? new PPTJFXGraphics2D( slide, slideWidth, slideHeight, Color.WHITE, Color.BLACK )
-                : new PPTGraphics2D( slide, slideWidth, slideHeight, Color.WHITE, Color.BLACK );
+                                              ? new PPTJFXGraphics2D( slide,
+                                                                      slideWidth,
+                                                                      slideHeight,
+                                                                      Color.WHITE,
+                                                                      Color.BLACK )
+                                              : new PPTGraphics2D( slide,
+                                                                   slideWidth,
+                                                                   slideHeight,
+                                                                   Color.WHITE,
+                                                                   Color.BLACK );
 
             // Write the PPT contents to memory indirectly via JFXConverter.
             final JFXConverter converter = new JFXConverter();

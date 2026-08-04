@@ -32,9 +32,6 @@ package com.mhschmieder.fxvectorexport.svg;
 
 import com.mhschmieder.jgraphics.color.ColorMode;
 import com.mhschmieder.jgraphics.util.GraphicsUtilities;
-import javafx.geometry.Bounds;
-import javafx.print.Paper;
-import javafx.scene.Node;
 import org.apache.commons.math3.util.FastMath;
 import org.jfree.svg.SVGGraphics2D;
 import org.jfree.svg.SVGHints;
@@ -46,45 +43,46 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
+import javafx.geometry.Bounds;
+import javafx.print.Paper;
+import javafx.scene.Node;
+
 /**
  * {@code SvgExportUtilities} is a utility class for methods that export a
  * JavaFX Scene Graph {@link Node} to an SVG Document via transcoding to AWT
  * using {@link JFXConverter} as a wrapper for {@link SVGGraphics2D}.
  *
- * @version 1.0
- *
  * @author Mark Schmieder
+ * @version 1.0
  */
 public final class SvgExportUtilities {
 
     /**
-     * The default constructor is disabled, as this is a static utilities class.
+     * The default constructor is disabled, as this is a static utilities
+     * class.
      */
-    private SvgExportUtilities() {}
+    private SvgExportUtilities() {
+    }
 
     /**
      * Creates the SVG Document corresponding to the {@link Node}, and writes it
      * to the provided {@link File}, using UTF-8 encoding due to the need to
      * handle locale sensitive characters for the SVG Title and content.
      * <p>
-     * This minimally specified entry point defaults to North American Letter
-     * as the target page paper size and orientation, for clients that don't
-     * want to bother specifying it or querying it either from the user or the
+     * This minimally specified entry point defaults to North American Letter as
+     * the target page paper size and orientation, for clients that don't want
+     * to bother specifying it or querying it either from the user or the
      * current Page Layout. It also presumes that RGB output is wanted, and
      * vectorized text (especially so that rotated text is rotated in SVG).
      *
-     * @param file
-     *            The {@link File} destination for writing the SVG content
-     * @param node
-     *            The {@link Node} to convert to AWT and then export to SVG
-     * @param title
-     *            The {@link String} to use as the SVG Document's title
+     * @param file  The {@link File} destination for writing the SVG content
+     * @param node  The {@link Node} to convert to AWT and then export to SVG
+     * @param title The {@link String} to use as the SVG Document's title
      * @return The status of whether SVG Document creation succeeded or not
-     *
      * @since 1.0
      */
-    public static boolean createDocument( final File file, 
-                                          final Node node, 
+    public static boolean createDocument( final File file,
+                                          final Node node,
                                           final String title ) {
         // Use North American Letter as the target page paper size and page
         // orientation. There are no limits on allowed values; units are points
@@ -93,14 +91,13 @@ public final class SvgExportUtilities {
         final double pageWidth = paperTarget.getWidth();
         final double pageHeight = paperTarget.getHeight();
 
-        return createDocument(
-                file,
-                node,
-                title,
-                pageWidth,
-                pageHeight,
-                ColorMode.RGB,
-                true );
+        return createDocument( file,
+                               node,
+                               title,
+                               pageWidth,
+                               pageHeight,
+                               ColorMode.RGB,
+                               true );
     }
 
     /**
@@ -113,24 +110,23 @@ public final class SvgExportUtilities {
      * <p>
      * Note that the Color Mode isn't used yet, until JFreeSVG supports it.
      *
-     * @param file
-     *            The {@link File} destination for writing the SVG content
-     * @param node
-     *            The {@link Node} to convert to AWT and then export to SVG
-     * @param title
-     *            The {@link String} to use as the SVG Document's title
-     * @param pageWidth
-     *            The target page width, usually in points (1/72 inch)
-     * @param pageHeight
-     *            The target page height, usually in points (1/72 inch)
-     * @param colorMode
-     *            The {@link ColorMode} to use, compatible with SVG specs
-     * @param useVectorizedText
-     *            Set to {@code true} if Vectorized Text Mode is desired;
-     *            {@code false} otherwise (that is, if text is to be rendered as
-     *            strings, sometimes referred to as Basic Text Mode)
+     * @param file              The {@link File} destination for writing the SVG
+     *                          content
+     * @param node              The {@link Node} to convert to AWT and then
+     *                          export to SVG
+     * @param title             The {@link String} to use as the SVG Document's
+     *                          title
+     * @param pageWidth         The target page width, usually in points (1/72
+     *                          inch)
+     * @param pageHeight        The target page height, usually in points (1/72
+     *                          inch)
+     * @param colorMode         The {@link ColorMode} to use, compatible with
+     *                          SVG specs
+     * @param useVectorizedText Set to {@code true} if Vectorized Text Mode is
+     *                          desired; {@code false} otherwise (that is, if
+     *                          text is to be rendered as strings, sometimes
+     *                          referred to as Basic Text Mode)
      * @return The status of whether SVG Document creation succeeded or not
-     *
      * @since 1.0
      */
     public static boolean createDocument( final File file,
@@ -152,12 +148,14 @@ public final class SvgExportUtilities {
         // represented by non-Unicode 7-bit or 8-bit formats (such as US-ASCII),
         // if is preferable to use a {@link OutputStreamWriter} set to UTF-8
         // encoding instead of {@link FileWriter} that can only write to UTF-16.
-        try ( final FileOutputStream fileOutputStream = new FileOutputStream( file );
-                final OutputStreamWriter outputStreamWriter
-                        = new OutputStreamWriter(
-                                fileOutputStream, "UTF-8" );
-                final BufferedWriter bufferedWriter = new BufferedWriter(
-                        outputStreamWriter ) ) {
+        try ( final FileOutputStream fileOutputStream = new FileOutputStream(
+                file );
+              final OutputStreamWriter outputStreamWriter =
+                      new OutputStreamWriter(
+                      fileOutputStream,
+                      "UTF-8" );
+              final BufferedWriter bufferedWriter = new BufferedWriter(
+                      outputStreamWriter ) ) {
             // Write the SVG contents indirectly via JFXConverter.
             fileSaved = createDocument( bufferedWriter,
                                         node,
@@ -184,27 +182,26 @@ public final class SvgExportUtilities {
      * <p>
      * Note that the Color Mode isn't used yet, until JFreeSVG supports it.
      *
-     * @param writer
-     *            The wrapped {@link Writer} for channeling the SVG content
-     * @param node
-     *            The {@link Node} to convert to AWT and then export to SVG
-     * @param title
-     *            The {@link String} to use as the SVG Document's title
-     * @param pageWidth
-     *            The target page width, usually in points (1/72 inch)
-     * @param pageHeight
-     *            The target page height, usually in points (1/72 inch)
-     * @param colorMode
-     *            The {@link ColorMode} to use, compatible with SVG specs
-     * @param useVectorizedText
-     *            Set to {@code true} if Vectorized Text Mode is desired;
-     *            {@code false} otherwise (that is, if text is to be rendered as
-     *            strings, sometimes referred to as Basic Text Mode)
+     * @param writer            The wrapped {@link Writer} for channeling the
+     *                          SVG content
+     * @param node              The {@link Node} to convert to AWT and then
+     *                          export to SVG
+     * @param title             The {@link String} to use as the SVG Document's
+     *                          title
+     * @param pageWidth         The target page width, usually in points (1/72
+     *                          inch)
+     * @param pageHeight        The target page height, usually in points (1/72
+     *                          inch)
+     * @param colorMode         The {@link ColorMode} to use, compatible with
+     *                          SVG specs
+     * @param useVectorizedText Set to {@code true} if Vectorized Text Mode is
+     *                          desired; {@code false} otherwise (that is, if
+     *                          text is to be rendered as strings, sometimes
+     *                          referred to as Basic Text Mode)
      * @return The status of whether SVG Document creation succeeded or not
-     *
      * @since 1.0
      */
-    @SuppressWarnings("nls")
+    @SuppressWarnings( "nls" )
     public static boolean createDocument( final Writer writer,
                                           final Node node,
                                           final String title,
@@ -230,19 +227,24 @@ public final class SvgExportUtilities {
         // As JFreeSVG only supports integer precision bounds, we round up for
         // the canvas size, so that nothing gets clipped during higher-precision
         // floating-point transforms of the graphics transcoding.
-        final SVGGraphics2D svgGraphics = new SVGGraphics2D( ( int ) FastMath.ceil( pageWidth ),
-                                                             ( int ) FastMath.ceil( pageHeight ) );
+        final SVGGraphics2D svgGraphics
+                = new SVGGraphics2D( ( int ) FastMath.ceil( pageWidth ),
+                                     ( int ) FastMath.ceil( pageHeight ) );
 
         // Vectorize the text, to avoid missing fonts and to allow more
         // flexibility in how to work with text in downstream applications.
         final Object textRenderingHint = useVectorizedText
-            ? SVGHints.VALUE_DRAW_STRING_TYPE_VECTOR
-            : SVGHints.VALUE_DRAW_STRING_TYPE_STANDARD;
-        svgGraphics.setRenderingHint( SVGHints.KEY_DRAW_STRING_TYPE, textRenderingHint );
+                                         ?
+                                         SVGHints.VALUE_DRAW_STRING_TYPE_VECTOR
+                                         :
+                                         SVGHints.VALUE_DRAW_STRING_TYPE_STANDARD;
+        svgGraphics.setRenderingHint( SVGHints.KEY_DRAW_STRING_TYPE,
+                                      textRenderingHint );
 
         // Make a default Title if none was provided, or if empty.
-        final String svgTitle =
-                              ( ( title == null ) || title.isEmpty() ) ? "The SVG Document" : title;
+        final String svgTitle = ( ( title == null ) || title.isEmpty() )
+                                ? "The SVG Document"
+                                : title;
         svgGraphics.setRenderingHint( SVGHints.KEY_ELEMENT_TITLE, svgTitle );
 
         // Calculate and apply a global transform for all of the AWT transcoding

@@ -37,14 +37,15 @@ import com.mhschmieder.fxgraphics.paint.ColorUtilities;
 import com.mhschmieder.jgraphics.shape.AttributedShapeContainer;
 import com.mhschmieder.jgraphics.shape.DrawMode;
 import com.mhschmieder.jphysics.measure.DistanceUnit;
+import org.jfxconverter.utils.JFXShapeUtilities;
+
+import java.awt.geom.AffineTransform;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
-import org.jfxconverter.utils.JFXShapeUtilities;
-
-import java.awt.geom.AffineTransform;
 
 /**
  * This is a utility class for dealing with conversions of information in the
@@ -52,20 +53,25 @@ import java.awt.geom.AffineTransform;
  */
 public final class DxfConverterUtilities {
 
+    // NOTE: The constructor is disabled, since this is a static class.
+    private DxfConverterUtilities() {
+    }
+
     /**
      * Returns a {@link DxfShapeGroup} that contains a parsed DXF file structure
      * converted from DXF Entities and Blocks into JavaFX Shapes as Scene Graph
      * Nodes. It presumes that the DXF Loader has already been run and is
      * populated with parsed DXF entities.
-     * 
+     *
      * @param dxfLoader The DXF Loader that contains the read-in DXF file
-     * @return a {@link DxfShapeGroup} that contains a parsed DXF file structure
+     * @return a {@link DxfShapeGroup} that contains a parsed DXF file
+     *         structure
      */
     public static DxfShapeGroup convertToFxShapes( final DxfLoader dxfLoader ) {
         // Convert the DXF Distance Unit to our supported subset.
         final DxfDistanceUnit dxfDistanceUnit = dxfLoader.getDistanceUnit();
-        final DistanceUnit importedGeometryDistanceUnit = DxfConverterUtilities
-                .getDistanceUnit( dxfDistanceUnit );
+        final DistanceUnit importedGeometryDistanceUnit
+                = DxfConverterUtilities.getDistanceUnit( dxfDistanceUnit );
 
         // Query the Drawing Limits stored with the DXF document.
         final double importedGeometryLimitsMinX = dxfLoader.getLimitsMinX();
@@ -74,11 +80,12 @@ public final class DxfConverterUtilities {
         final double importedGeometryLimitsMaxY = dxfLoader.getLimitsMaxY();
 
         // Construct a candidate for the loading of newly imported geometry.
-        final DxfShapeGroup dxfShapeGroup = new DxfShapeGroup( importedGeometryDistanceUnit,
-                                                               importedGeometryLimitsMinX,
-                                                               importedGeometryLimitsMinY,
-                                                               importedGeometryLimitsMaxX,
-                                                               importedGeometryLimitsMaxY );
+        final DxfShapeGroup dxfShapeGroup = new DxfShapeGroup(
+                importedGeometryDistanceUnit,
+                importedGeometryLimitsMinX,
+                importedGeometryLimitsMinY,
+                importedGeometryLimitsMaxX,
+                importedGeometryLimitsMaxY );
 
         try {
             // Use the DXF Loader to convert the DXF geometry into generic
@@ -100,69 +107,70 @@ public final class DxfConverterUtilities {
     }
 
     /**
-     * This method takes an extended Distance Unit set from DXF and converts
-     * it to the smaller subset of Distance Units supported within our other
+     * This method takes an extended Distance Unit set from DXF and converts it
+     * to the smaller subset of Distance Units supported within our other
      * libraries and applications. Unsupported units get mapped to "Unitless".
      * <p>
      * TODO: Add an enumeration value for "Unsupported", to treat differently?
      *
-     * @param dxfDistanceUnit
-     *            The raw Distance Unit from the DXF file
-     * @return The smaller subset of Distance Units supported within our
-     *         other libraries and applications
+     * @param dxfDistanceUnit The raw Distance Unit from the DXF file
+     * @return The smaller subset of Distance Units supported within our other
+     *         libraries and applications
      */
     public static DistanceUnit getDistanceUnit( final DxfDistanceUnit dxfDistanceUnit ) {
         DistanceUnit importedGeometryDistanceUnit = DistanceUnit.UNITLESS;
         switch ( dxfDistanceUnit ) {
-        case UNITLESS:
-            importedGeometryDistanceUnit = DistanceUnit.UNITLESS;
-            break;
-        case INCHES:
-            importedGeometryDistanceUnit = DistanceUnit.INCHES;
-            break;
-        case FEET:
-            importedGeometryDistanceUnit = DistanceUnit.FEET;
-            break;
-        case MILES:
-            // We do not yet support miles, so make unitless.
-            break;
-        case MILLIMETERS:
-            importedGeometryDistanceUnit = DistanceUnit.MILLIMETERS;
-            break;
-        case CENTIMETERS:
-            importedGeometryDistanceUnit = DistanceUnit.CENTIMETERS;
-            break;
-        case METERS:
-            importedGeometryDistanceUnit = DistanceUnit.METERS;
-            break;
-        case KILOMETERS:
-        case MICROINCHES:
-        case MILS:
-            // We do not yet support statue kilometers, microinches, or mils,
-            // as they are uncommon, but should be reviewed.
-            break;
-        case YARDS:
-            importedGeometryDistanceUnit = DistanceUnit.YARDS;
-            break;
-        case ANGSTROMS:
-        case NANOMETERS:
-        case MICRONS:
-            // NOTE: These units are on a microscopic scale so are irrelevant
-            // to architecture and related fields.
-            break;
-        case DECIMETERS:
-        case DECAMETERS:
-        case HECTOMETERS:
-        case GIGAMETERS:
-            // NOTE: These units are less common but should be reviewed.
-            break;
-        case ASTRONOMICAL_UNITS:
-        case LIGHT_YEARS:
-        case PARSECS:
-            // NOTE: The remaining cases are all unused scientific units.
-            break;
-        default:
-            break;
+            case UNITLESS:
+                importedGeometryDistanceUnit = DistanceUnit.UNITLESS;
+                break;
+            case INCHES:
+                importedGeometryDistanceUnit = DistanceUnit.INCHES;
+                break;
+            case FEET:
+                importedGeometryDistanceUnit = DistanceUnit.FEET;
+                break;
+            case MILES:
+                // We do not yet support miles, so make unitless.
+                break;
+            case MILLIMETERS:
+                importedGeometryDistanceUnit = DistanceUnit.MILLIMETERS;
+                break;
+            case CENTIMETERS:
+                importedGeometryDistanceUnit = DistanceUnit.CENTIMETERS;
+                break;
+            case METERS:
+                importedGeometryDistanceUnit = DistanceUnit.METERS;
+                break;
+            case KILOMETERS:
+            case MICROINCHES:
+            case MILS:
+                // We do not yet support statue kilometers, microinches, or
+                // mils,
+                // as they are uncommon, but should be reviewed.
+                break;
+            case YARDS:
+                importedGeometryDistanceUnit = DistanceUnit.YARDS;
+                break;
+            case ANGSTROMS:
+            case NANOMETERS:
+            case MICRONS:
+                // NOTE: These units are on a microscopic scale so are
+                // irrelevant
+                // to architecture and related fields.
+                break;
+            case DECIMETERS:
+            case DECAMETERS:
+            case HECTOMETERS:
+            case GIGAMETERS:
+                // NOTE: These units are less common but should be reviewed.
+                break;
+            case ASTRONOMICAL_UNITS:
+            case LIGHT_YEARS:
+            case PARSECS:
+                // NOTE: The remaining cases are all unused scientific units.
+                break;
+            default:
+                break;
         }
 
         return importedGeometryDistanceUnit;
@@ -172,20 +180,19 @@ public final class DxfConverterUtilities {
      * This method converts a full container of JavaFX based Shapes into an
      * equivalent container of AWT based Shapes.
      *
-     * @param geometryContainerFx
-     *            The original JavaFX Shape container
-     * @param scaleTransform
-     *            If relevant, a scale factor to apply globally to the full
-     *            collection of Shapes
+     * @param geometryContainerFx The original JavaFX Shape container
+     * @param scaleTransform      If relevant, a scale factor to apply globally
+     *                            to the full collection of Shapes
      * @return The converted AWT Shape container
      */
     public static AttributedShapeContainer makeGeometryContainerAwt( final DxfShapeGroup geometryContainerFx,
                                                                      final AffineTransform scaleTransform ) {
         // Make an AWT Geometry Container to fit all of the entities.
-        final ObservableList< Node > importedGeometry = geometryContainerFx.getChildren();
-        final AttributedShapeContainer geometryContainerAwt =
-                                                            new AttributedShapeContainer( importedGeometry
-                                                                    .size(), scaleTransform );
+        final ObservableList< Node > importedGeometry
+                = geometryContainerFx.getChildren();
+        final AttributedShapeContainer geometryContainerAwt
+                = new AttributedShapeContainer( importedGeometry.size(),
+                                                scaleTransform );
 
         // Iterate to convert and copy the entities, but note that this
         // approach may lose information such as color and line stroke, as
@@ -197,21 +204,23 @@ public final class DxfConverterUtilities {
 
             // Do not pre-compensate for Block Insert transforms (when
             // present), due to downstream transform order issues in AWT.
-            final AffineTransform transformAwt = JFXShapeUtilities
-                    .getTransform( shape );
+            final AffineTransform transformAwt = JFXShapeUtilities.getTransform(
+                    shape );
 
             // Add this converted shape to the AWT Geometry Container.
             final Color dxfColor = ( Color ) shape.getStroke();
-            final java.awt.Color dxfColorAwt = ColorUtilities.getColor( dxfColor );
+            final java.awt.Color dxfColorAwt
+                    = ColorUtilities.getColor( dxfColor );
             final Paint fill = shape.getFill();
-            final DrawMode drawMode = ( fill != null ) ? DrawMode.FILL : DrawMode.STROKE;
-            geometryContainerAwt.addShape( shapeAwt, dxfColorAwt, drawMode, transformAwt );
+            final DrawMode drawMode = ( fill != null )
+                                      ? DrawMode.FILL
+                                      : DrawMode.STROKE;
+            geometryContainerAwt.addShape( shapeAwt,
+                                           dxfColorAwt,
+                                           drawMode,
+                                           transformAwt );
         }
 
         return geometryContainerAwt;
     }
-
-    // NOTE: The constructor is disabled, since this is a static class.
-    private DxfConverterUtilities() {}
-
 }// class DxfConverterUtilities

@@ -1,43 +1,36 @@
 /**
- * Copyright (c) 2011, 2013, 2014, 2015, 2016 Dassault Aviation.
- * Copyright (c) 2017 Herve Girod.
- *
+ * Copyright (c) 2011, 2013, 2014, 2015, 2016 Dassault Aviation. Copyright (c)
+ * 2017 Herve Girod.
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  * 1. Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- * this list of conditions and the following disclaimer in the documentation
- * and/or other materials provided with the distribution.
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES
+ * this list of conditions and the following disclaimer. 2. Redistributions in
+ * binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other
+ * materials provided with the distribution. THIS SOFTWARE IS PROVIDED BY THE
+ * COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+ * EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * The views and conclusions contained in the software and documentation are
- * those
- * of the authors and should not be interpreted as representing official
- * policies,
- * either expressed or implied, of the FreeBSD Project.
- * Please contact Dassault Aviation, 9 Rond-Point des Champs Elysees, 75008
- * Paris,
- * France if you need additional information.
- * Alternatively if you have any questions about this project, you can visit
- * the project website at the project page on http://j661.sourceforge.net
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. The views and
+ * conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies,
+ * either expressed or implied, of the FreeBSD Project. Please contact Dassault
+ * Aviation, 9 Rond-Point des Champs Elysees, 75008 Paris, France if you need
+ * additional information. Alternatively if you have any questions about this
+ * project, you can visit the project website at the project page on
+ * http://j661.sourceforge.net
  */
 package org.jfxconverter.drivers.ppt;
 
 import org.apache.commons.math3.util.FastMath;
 import org.apache.poi.ddf.EscherOptRecord;
-import org.apache.poi.ddf.EscherSimpleProperty;
 import org.apache.poi.hslf.record.FontCollection;
 import org.apache.poi.hslf.usermodel.HSLFAutoShape;
 import org.apache.poi.hslf.usermodel.HSLFFontInfo;
@@ -62,7 +55,6 @@ import org.mdiutil.geom.Polyline2D;
 import org.mdiutil.geom.ShapeNormalizer;
 import org.mdiutil.geom.ShapeUtilities;
 
-import javax.imageio.ImageIO;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
@@ -107,6 +99,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 /**
  * This implementation of the java.awt.Graphics2D abstract class allows users to
  * generate PowerPoint content from Java code.
@@ -125,57 +119,57 @@ import java.util.Map;
  * @@version 0.20
  */
 public class PPTGraphics2D extends Graphics2D {
-    public static final int        ACTION_DRAW       = 0;
-    public static final int        ACTION_FILL       = 1;
-    private static final short     NOT_CLIPPED       = 0;
-    private static final short     OUTSIDE_CLIP      = 1;
-    private static final short     INTERSECT_CLIP    = 2;
-    private static final boolean   DEBUG             = false;
-    protected static final float   TEXT_MIN_ESCAPE   = ( float ) ( FastMath.PI / 180 );
-    protected static final double  ASSUME_ZERO       = 0.01f;
-    private BufferedImage          img;
-    private Graphics2D             g2D;
-    protected AffineTransform      trans;
-    // fonts definition
-    private Font                   font;
-    private FontRenderContext      fctx              = null;
-    private FontMetrics            fontMetrics       = null;
-    private Shape                  deviceclip;
-    private static final float     DASH_LIMIT_DOT    = 0.5f / 348f;
-    private static final float     DASH_LIMIT_NORMAL = 4f / 348f;
-    private Paint                  paint;
-
-    /*
-     * The last Color.
-     */
-    protected Color                color;
-    /**
-     * The default stroke to use.
-     */
-    protected BasicStroke          basicStroke;
-    public boolean                 forceStroke       = false;
-    /**
-     * True if the stroke of the shapes should be forced to a fixed value.
-     */
-    protected float                forceStrokeValue;
+    public static final int ACTION_DRAW = 0;
+    public static final int ACTION_FILL = 1;
+    protected static final float TEXT_MIN_ESCAPE = ( float ) ( FastMath.PI
+                                                               / 180 );
+    protected static final double ASSUME_ZERO = 0.01f;
+    private static final short NOT_CLIPPED = 0;
+    private static final short OUTSIDE_CLIP = 1;
+    private static final short INTERSECT_CLIP = 2;
+    private static final boolean DEBUG = false;
+    private static final float DASH_LIMIT_DOT = 0.5f / 348f;
+    private static final float DASH_LIMIT_NORMAL = 4f / 348f;
+    public boolean forceStroke = false;
     /**
      * The PPT width.
      */
-    public float                   width;
+    public float width;
     /**
      * The PPT height.
      */
-    public float                   height;
-    protected HSLFSlide            slide             = null;
+    public float height;
+    protected AffineTransform trans;
+    /*
+     * The last Color.
+     */
+    protected Color color;
+    /**
+     * The default stroke to use.
+     */
+    protected BasicStroke basicStroke;
+    /**
+     * True if the stroke of the shapes should be forced to a fixed value.
+     */
+    protected float forceStrokeValue;
+    protected HSLFSlide slide = null;
     /**
      * The Font collection.
      */
-    protected FontCollection       coll              = null;
-    protected StrokeStyle.LineDash lineDashing       = StrokeStyle.LineDash.SOLID;
-    private boolean                acceptSmallShapes = true;
-    private boolean                hardClipTexts     = false;
+    protected FontCollection coll = null;
+    protected StrokeStyle.LineDash lineDashing = StrokeStyle.LineDash.SOLID;
+    private BufferedImage img;
+    private Graphics2D g2D;
+    // fonts definition
+    private Font font;
+    private FontRenderContext fctx = null;
+    private FontMetrics fontMetrics = null;
+    private Shape deviceclip;
+    private Paint paint;
+    private boolean acceptSmallShapes = true;
+    private boolean hardClipTexts = false;
     // by default the Locale is the default Locale on the Machine
-    private Locale                 locale            = Locale.getDefault();
+    private Locale locale = Locale.getDefault();
 
     /**
      * Default constructor.
@@ -198,7 +192,9 @@ public class PPTGraphics2D extends Graphics2D {
      * @param imHeight
      *            the slide height
      */
-    public PPTGraphics2D( final HSLFSlide pptSlide, final float imWidth, final float imHeight ) {
+    public PPTGraphics2D( final HSLFSlide pptSlide,
+                          final float imWidth,
+                          final float imHeight ) {
         this( pptSlide, imWidth, imHeight, Color.black, Color.white, 1f );
         forceStroke = false;
     }
@@ -243,7 +239,12 @@ public class PPTGraphics2D extends Graphics2D {
                           final float imWidth,
                           final float imHeight,
                           final float strokeValue ) {
-        this( pptSlide, imWidth, imHeight, Color.black, Color.white, strokeValue );
+        this( pptSlide,
+              imWidth,
+              imHeight,
+              Color.black,
+              Color.white,
+              strokeValue );
         forceStroke = true;
     }
 
@@ -280,7 +281,10 @@ public class PPTGraphics2D extends Graphics2D {
         fctx = new FontRenderContext( new AffineTransform(), true, true );
         slide = pptSlide;
 
-        coll = pptSlide.getSlideShow().getDocumentRecord().getEnvironment().getFontCollection();
+        coll = pptSlide.getSlideShow()
+                       .getDocumentRecord()
+                       .getEnvironment()
+                       .getFontCollection();
         initContent( background, foreground, strokeValue );
     }
 
@@ -342,12 +346,12 @@ public class PPTGraphics2D extends Graphics2D {
         return slide;
     }
 
-    public void setHardClippingTexts( final boolean b ) {
-        hardClipTexts = b;
-    }
-
     public boolean isHardClippingTexts() {
         return hardClipTexts;
+    }
+
+    public void setHardClippingTexts( final boolean b ) {
+        hardClipTexts = b;
     }
 
     public void setAcceptSmallShapes( final boolean accept ) {
@@ -373,7 +377,9 @@ public class PPTGraphics2D extends Graphics2D {
         paint = background;
         color = foreground;
 
-        basicStroke = new BasicStroke( strokeValue, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        basicStroke = new BasicStroke( strokeValue,
+                                       BasicStroke.CAP_ROUND,
+                                       BasicStroke.JOIN_ROUND );
 
         forceStroke = true;
         forceStrokeValue = strokeValue;
@@ -383,17 +389,737 @@ public class PPTGraphics2D extends Graphics2D {
     }
 
     @Override
+    public Graphics create() {
+        final PPTGraphics2D pptgraphics2d = new PPTGraphics2D( this );
+
+        return pptgraphics2d;
+    }    @Override
     public void addRenderingHints( final Map< ?, ? > map ) {
         g2D.addRenderingHints( map );
     }
 
     @Override
-    public void clearRect( final int x, final int y, final int aWidth, final int aHeight ) {
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
+    public void setColor( final Color col ) {
+        setPaint( col );
+    }
+
+    @Override
+    public void setPaintMode() {
+    }    @Override
+    public void clip( Shape shape ) {
+        shape = ShapeUtilities.createTransformedShape( shape, trans );
+        if ( deviceclip != null ) {
+            final Area area = new Area( deviceclip );
+            if ( shape != null ) {
+                area.intersect( new Area( shape ) );
+            }
+            shape = area;
+        }
+        deviceclip = shape;
+    }
+
+    @Override
+    public void setXORMode( final Color aColor ) {
+    }
+
+    @Override
+    public Font getFont() {
+        return g2D.getFont();
+    }
+
+    @Override
+    public void setFont( final Font font ) {
+        g2D.setFont( font );
+        fontMetrics = getFontMetrics( font );
+        this.font = font;
+    }
+
+    @Override
+    public FontMetrics getFontMetrics( final Font font ) {
+        return g2D.getFontMetrics( font );
+    }
+
+    @Override
+    public Rectangle getClipBounds() {
+        if ( deviceclip != null ) {
+            return getClip().getBounds();
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public void clipRect( final int x,
+                          final int y,
+                          final int aWidth,
+                          final int aHeight ) {
+        clip( new Rectangle( x, y, aWidth, aHeight ) );
+    }
+
+    @Override
+    public void setClip( final int x,
+                         final int y,
+                         final int cWidth,
+                         final int cHeight ) {
+        setClip( new Rectangle( x, y, cWidth, cHeight ) );
+    }
+
+    @Override
+    public Shape getClip() {
+        try {
+            return ShapeUtilities.createTransformedShape( deviceclip,
+                                                          trans.createInverse() );
+        }
+        catch ( final Exception _ex ) {
+            return null;
+        }
+    }
+
+    /**
+     * Set the clipping for the next graphic orders.
+     *
+     * @param shape
+     *            the Clipping Shape
+     */
+    @Override
+    public void setClip( final Shape shape ) {
+        if ( shape != null ) {
+            deviceclip = ShapeUtilities.createTransformedShape( shape, trans );
+        }
+        else {
+            deviceclip = null;
+        }
+    }
+
+    @Override
+    public void copyArea( final int x,
+                          final int y,
+                          final int aWidth,
+                          final int aHeight,
+                          final int dx,
+                          final int dy ) {
+        g2D.copyArea( x, y, aWidth, aHeight, dx, dy );
+    }
+
+    @Override
+    public void drawLine( final int x1,
+                          final int y1,
+                          final int x2,
+                          final int y2 ) {
+        draw( new Line2D.Float( x1, y1, x2, y2 ) );
+    }
+
+    @Override
+    public void fillRect( final int x,
+                          final int y,
+                          final int rWidth,
+                          final int rHeight ) {
+        fill( new Rectangle( x, y, rWidth, rHeight ) );
+    }
+
+    @Override
+    public void drawRect( final int x,
+                          final int y,
+                          final int aWidth,
+                          final int aHeight ) {
+        final Rectangle rectangle = new Rectangle( x, y, aWidth, aHeight );
+
+        draw( rectangle );
+    }
+
+    @Override
+    public void clearRect( final int x,
+                           final int y,
+                           final int aWidth,
+                           final int aHeight ) {
         final Paint paint1 = paint;
 
         setColor( getBackground() );
         fillRect( x, y, aWidth, aHeight );
         setPaint( paint1 );
+    }
+
+    @Override
+    public void drawRoundRect( final int x,
+                               final int y,
+                               final int aWidth,
+                               final int aHeight,
+                               final int arcWidth,
+                               final int arcHeight ) {
+        draw( new RoundRectangle2D.Float( x,
+                                          y,
+                                          aWidth,
+                                          aHeight,
+                                          arcWidth,
+                                          arcHeight ) );
+    }
+
+    @Override
+    public void fillRoundRect( final int x,
+                               final int y,
+                               final int rWidth,
+                               final int rHeight,
+                               final int arcWidth,
+                               final int arcHeight ) {
+        fill( new java.awt.geom.RoundRectangle2D.Float( x,
+                                                        y,
+                                                        rWidth,
+                                                        rHeight,
+                                                        arcWidth,
+                                                        arcHeight ) );
+    }
+
+    @Override
+    public void drawOval( final int x,
+                          final int y,
+                          final int aWidth,
+                          final int aHeight ) {
+        draw( new Ellipse2D.Float( x, y, aWidth, aHeight ) );
+    }
+
+    @Override
+    public void fillOval( final int x,
+                          final int y,
+                          final int aWidth,
+                          final int aHeight ) {
+        fill( new java.awt.geom.Ellipse2D.Float( x, y, aWidth, aHeight ) );
+    }
+
+    @Override
+    public void drawArc( final int x,
+                         final int y,
+                         final int aWidth,
+                         final int aHeight,
+                         final int startAngle,
+                         final int arcAngle ) {
+        draw( new Arc2D.Float( x,
+                               y,
+                               aWidth,
+                               aHeight,
+                               startAngle,
+                               arcAngle,
+                               0 ) );
+    }
+
+    @Override
+    public void fillArc( final int x,
+                         final int y,
+                         final int aWidth,
+                         final int aHeight,
+                         final int startAngle,
+                         final int arcAngle ) {
+        fill( new java.awt.geom.Arc2D.Float( x,
+                                             y,
+                                             aWidth,
+                                             aHeight,
+                                             startAngle,
+                                             arcAngle,
+                                             2 ) );
+    }
+
+    @Override
+    public void drawPolyline( final int xPoints[],
+                              final int yPoints[],
+                              final int nPoints ) {
+        if ( nPoints > 0 ) {
+            final GeneralPath generalpath = new GeneralPath();
+
+            generalpath.moveTo( xPoints[ 0 ], yPoints[ 0 ] );
+            for ( int j = 1; j < nPoints; j++ ) {
+                generalpath.lineTo( xPoints[ j ], yPoints[ j ] );
+            }
+
+            draw( generalpath );
+        }
+    }
+
+    @Override
+    public void drawPolygon( final int xPoints[],
+                             final int yPoints[],
+                             final int nPoints ) {
+        draw( new Polygon( xPoints, yPoints, nPoints ) );
+    }
+
+    @Override
+    public void fillPolygon( final int xPoints[],
+                             final int yPoints[],
+                             final int nPoints ) {
+        fill( new Polygon( xPoints, yPoints, nPoints ) );
+    }
+
+    @Override
+    public boolean drawImage( final Image image,
+                              final int x,
+                              final int y,
+                              final ImageObserver observer ) {
+        return drawImage( image,
+                          x,
+                          y,
+                          image.getWidth( observer ),
+                          image.getHeight( observer ),
+                          observer );
+    }
+
+    @Override
+    public boolean drawImage( final Image image,
+                              final int x,
+                              final int y,
+                              final int aWidth,
+                              final int aHeight,
+                              final ImageObserver observer ) {
+        return drawImage( image, x, y, aWidth, aHeight, null, observer );
+    }
+
+    @Override
+    public boolean drawImage( final Image image,
+                              final int x,
+                              final int y,
+                              final Color aColor,
+                              final ImageObserver observer ) {
+        return drawImage( image,
+                          x,
+                          y,
+                          image.getWidth( observer ),
+                          image.getHeight( observer ),
+                          aColor,
+                          observer );
+    }
+
+    @Override
+    public boolean drawImage( final Image image,
+                              final int x,
+                              final int y,
+                              final int iWidth,
+                              final int iHeight,
+                              final Color theColor,
+                              final ImageObserver observer ) {
+        final Rectangle rectangle = new Rectangle( x, y, iWidth, iHeight );
+        final Rectangle rec = getTransformedForImage( rectangle );
+        if ( rec != null ) {
+            addImage( image, rec, observer );
+        }
+        addImage( image, rec, observer );
+
+        return true;
+    }
+
+    @Override
+    public boolean drawImage( final Image image,
+                              final int dx1,
+                              final int dy1,
+                              final int dx2,
+                              final int dy2,
+                              final int sx1,
+                              final int sy1,
+                              final int sx2,
+                              final int sy2,
+                              final ImageObserver observer ) {
+        return drawImage( image,
+                          dx1,
+                          dy1,
+                          dx2,
+                          dy2,
+                          sx1,
+                          sy1,
+                          sx2,
+                          sy2,
+                          null,
+                          observer );
+    }
+
+    @Override
+    public boolean drawImage( final Image image,
+                              final int dx1,
+                              final int dy1,
+                              final int dx2,
+                              final int dy2,
+                              final int sx1,
+                              final int sy1,
+                              final int sx2,
+                              final int sy2,
+                              final Color color1,
+                              final ImageObserver observer ) {
+        final Rectangle recdst = new Rectangle( dx1,
+                                                dy1,
+                                                dx2 - dx1,
+                                                dy2 - dy1 );
+        final Rectangle rec = getTransformedForImage( recdst );
+        if ( rec != null ) {
+            addImage( image, rec, observer );
+        }
+        return true;
+    }
+
+    @Override
+    public void dispose() {
+        g2D.dispose();
+        // img.flush();
+    }
+
+    private void addImage( final Image image,
+                           Rectangle rec,
+                           final ImageObserver observer ) {
+        final HSLFSlideShow show = slide.getSlideShow();
+        try {
+            final byte[] b = getImageData( image,
+                                           rec.width,
+                                           rec.height,
+                                           observer );
+            final HSLFPictureData idx = show.addPicture( b,
+                                                         PictureData.PictureType.PNG );
+
+            final HSLFPictureShape pict = doCreatePicture( idx );
+            rec = new Rectangle( rec.x, rec.y, rec.width, rec.height );
+            pict.setAnchor( rec );
+
+            // filling with a null color is important else a default color will
+            // mask the image
+            pict.setFillColor( null );
+            pict.setLineColor( null );
+            addShape( pict );
+        }
+        catch ( final IOException e ) {
+        }
+    }
+
+    /**
+     * Creates a picture Shape.
+     *
+     * @param data
+     *            the picture data
+     * @return the picture Shape
+     */
+    protected HSLFPictureShape doCreatePicture( final HSLFPictureData data ) {
+        final HSLFPictureShape pict = new HSLFPictureShape( data );
+        return pict;
+    }
+
+    /**
+     * Add the Shape to the Slide.
+     *
+     * @param shape
+     *            the Shape
+     */
+    protected void addShape( final HSLFShape shape ) {
+        shape.setSheet( slide );
+        slide.addShape( shape );
+    }
+
+    /**
+     * Create a PNG image as a byte array from a rendered Image. PNG is chosen
+     * because JPEG
+     * seems not adapted to batik or POI (inverts colors in the resulted image).
+     */
+    private byte[] getImageData( final Image image,
+                                 final int iWidth,
+                                 final int iHeight,
+                                 final ImageObserver observer )
+            throws IOException {
+        final BufferedImage bufImage = new BufferedImage( iWidth,
+                                                          iHeight,
+                                                          BufferedImage.TYPE_INT_ARGB );
+        final Graphics2D g2d = bufImage.createGraphics();
+        g2d.drawImage( image, new AffineTransform(), observer );
+
+        final ByteArrayOutputStream stream = new ByteArrayOutputStream( 100 );
+
+        ImageIO.write( bufImage, "png", stream );
+        stream.flush();
+        stream.close();
+
+        return stream.toByteArray();
+    }
+
+    private Rectangle getTransformedForImage( final Rectangle recdst ) {
+        if ( !isEmpty( recdst ) ) {
+            final AffineTransform rotation
+                    = ShapeUtilities.getRotationTransform( trans );
+            if ( rotation.isIdentity() ) {
+                final Shape shape = transformShape( recdst );
+                if ( shape != null ) {
+                    final Rectangle rec = shape.getBounds();
+                    return rec;
+                }
+                else {
+                    return null;
+                }
+            }
+            else {
+                final AffineTransform tr = AffineTransform.getTranslateInstance(
+                        -trans.getTranslateX(),
+                        -trans.getTranslateY() );
+                final Shape shape = tr.createTransformedShape( recdst );
+                if ( shape != null ) {
+                    final Rectangle rec = shape.getBounds();
+                    return rec;
+                }
+                else {
+                    return null;
+                }
+            }
+        }
+        else {
+            return null;
+        }
+    }
+
+    private boolean isEmpty( final Rectangle rec ) {
+        return rec.isEmpty() || ( rec.width <= 0 ) || ( rec.height <= 0 );
+    }
+
+    protected Shape transformShape( Shape shape ) {
+        shape = ShapeUtilities.createTransformedShape( shape, trans );
+        shape = getClippedShape( shape );
+        return shape;
+    }
+
+    private Shape getClippedShape( final Shape shape ) {
+        Shape outputShape;
+        if ( deviceclip != null ) {
+            final Area clip = new Area( deviceclip );
+            final Rectangle2D bounds = shape.getBounds2D();
+            if ( ( bounds.getWidth() < 0.1 ) || ( bounds.getHeight() < 0.1 ) ) {
+                final double boundsWidth = FastMath.max( 0.1,
+                                                         bounds.getWidth() );
+                final double boundsHeight = FastMath.max( 0.1,
+                                                          bounds.getHeight() );
+                bounds.setRect( bounds.getX(),
+                                bounds.getY(),
+                                boundsWidth,
+                                boundsHeight );
+            }
+            /*
+             * need to use getBounds and not getBounds2D, because there
+             * getBounds2D for a
+             * vertical or horizontal line gets a Rectangle2D with no width or
+             * height,
+             * and in this case there is no intersection
+             */
+            if ( clip.contains( bounds ) ) {
+                outputShape = shape;
+            }
+            else if ( clip.intersects( bounds ) ) {
+                final ClippableShape csh = new ClippableShape( shape );
+                csh.intersect( clip );
+                outputShape = csh.getPeerShape();
+            }
+            else {
+                outputShape = null;
+            }
+        }
+        else {
+            outputShape = shape;
+        }
+        return outputShape;
+    }
+
+    /**
+     * Return true if the Shape can be drawn. The default implementation is if
+     * both the width and height of the Shape
+     * are greater than 1.
+     *
+     * @param shape
+     *            the Shape
+     * @return true if the Shape can be drawn
+     */
+    protected boolean acceptDrawShape( final Shape shape ) {
+        if ( acceptSmallShapes ) {
+            return true;
+        }
+        else {
+            return ( shape.getBounds2D().getHeight() >= 1f ) || (
+                    shape.getBounds2D().getWidth() >= 1f );
+        }
+    }
+
+    /**
+     * Return true if the Shape can be filled. The default implementation is if
+     * both the width and height of the Shape
+     * are greater than 1.
+     *
+     * @param shape
+     *            the Shape
+     * @return true if the Shape can be drawn
+     */
+    protected boolean acceptFillShape( final Shape shape ) {
+        if ( acceptSmallShapes ) {
+            return true;
+        }
+        else {
+            return ( shape.getBounds2D().getHeight() >= 1f ) && (
+                    shape.getBounds2D().getWidth() >= 1f );
+        }
+    }
+
+    @Override
+    public void draw( Shape shape ) {
+        shape = transformShape( shape );
+        if ( shape != null ) {
+            if ( acceptDrawShape( shape ) ) {
+                doDrawing( shape );
+            }
+        }
+    }
+
+    @Override
+    public boolean drawImage( final Image image,
+                              final AffineTransform tr,
+                              final ImageObserver imageobserver ) {
+        final AffineTransform affine1 = ( AffineTransform ) trans.clone();
+
+        trans.concatenate( tr );
+        drawImage( image, 0, 0, imageobserver );
+        trans = affine1;
+        return true;
+    }
+
+    @Override
+    public void drawImage( final BufferedImage image,
+                           final BufferedImageOp imageOp,
+                           final int i,
+                           final int j ) {
+        final BufferedImage bufImage1 = imageOp.filter( image, null );
+        drawImage( bufImage1,
+                   new AffineTransform( 1.0f, 0.0f, 0.0f, 1.0f, i, j ),
+                   null );
+    }
+
+    @Override
+    public void drawRenderedImage( final RenderedImage image,
+                                   final AffineTransform transform ) {
+        final BufferedImage bufferedimage
+                = new BufferedImage( image.getColorModel(),
+                                     image.getData()
+                                          .createCompatibleWritableRaster(),
+                                     false,
+                                     null );
+
+        bufferedimage.setData( image.getData() );
+        drawImage( bufferedimage, transform, null );
+    }
+
+    @Override
+    public void drawRenderableImage( final RenderableImage image,
+                                     final AffineTransform transform ) {
+        drawRenderedImage( image.createDefaultRendering(), transform );
+    }
+
+    @Override
+    public void drawString( final String s,
+                            final int x,
+                            final int y ) {
+        drawString( s, ( float ) x, ( float ) y );
+    }
+
+    @Override
+    public void drawString( final String s,
+                            final float x,
+                            final float y ) {
+        doDrawString( s, x, y );
+    }
+
+    @Override
+    public void drawString( final AttributedCharacterIterator ati,
+                            final int x,
+                            final int y ) {
+        final float fx = x;
+        final float fy = y;
+        drawString( ati, fx, fy );
+    }
+
+    @Override
+    public void drawString( final AttributedCharacterIterator ati,
+                            final float x,
+                            final float y ) {
+        // now iterate through all the runs
+        ati.first();
+        while ( ati.current() != CharacterIterator.DONE ) {
+            // retrieve the current span of text for the run
+            final StringBuilder buf = new StringBuilder();
+
+            while ( true ) {
+                buf.append( ati.current() );
+                if ( ati.getIndex() == ( ati.getRunLimit() - 1 ) ) {
+                    ati.next();
+                    break;
+                }
+                else {
+                    ati.next();
+                }
+            }
+            final String s = buf.toString();
+            final HSLFTextBox txt = new HSLFTextBox();
+
+            txt.setSheet( slide );
+            txt.setFillColor( null );
+            txt.setLineColor( null );
+            txt.setText( s );
+
+            // set escapement (rotation of the text)
+            final float rot = ( float ) FastMath.atan2( trans.getShearX(),
+                                                        trans.getScaleX() );
+            boolean rotated = false;
+
+            if ( FastMath.abs( rot ) > TEXT_MIN_ESCAPE ) {
+                txt.setRotation( ( int ) ( ( -rot * 180d ) / FastMath.PI ) );
+                rotated = true;
+            }
+
+            final double _x = x;
+            final double _y = y;
+
+            final Point2D.Double pt = new Point2D.Double(
+                    _x + getFont().getTransform().getTranslateX(),
+                    _y + getFont().getTransform().getTranslateY() );
+
+            txt.setAnchor( getTextBox( s,
+                                       pt.getX(),
+                                       pt.getY(),
+                                       rotated,
+                                       rot ).getBounds() );
+            txt.setTopInset( 0f );
+            txt.setBottomInset( 0f );
+            txt.setLeftInset( 0f );
+            txt.setRightInset( 0f );
+            // need to use AnchorTop and not AlignCenter
+            txt.setVerticalAlignment( VerticalAlignment.TOP );
+            // use RichTextRun to work with the text format
+            final HSLFTextRun rt = txt.getTextParagraphs()
+                                      .get( 0 )
+                                      .getTextRuns()
+                                      .get( 0 );
+            rt.setFontSize( ( double ) font.getSize2D() );
+
+            // the coll.getFontIndex(fontName) method does not exist anymore in
+            // POI 3.17
+            // thanks Mark Schmieder for the fix
+            final String fontName = font.getFontName( locale );
+
+            final HSLFFontInfo fInfo = coll.getFontInfo( fontName );
+            final int fIndex = ( fInfo == null )
+                               ? -1
+                               : fInfo.getIndex();
+            if ( fIndex == -1 ) {
+                rt.setFontFamily( font.getFamily() );
+            }
+            else {
+                rt.setFontIndex( fIndex );
+            }
+            rt.setBold( font.isBold() );
+            rt.setItalic( font.isItalic() );
+            rt.setFontColor( getColor() );
+            // need to use AlignLeft and not AlignCenter
+            txt.getTextParagraphs()
+               .get( 0 )
+               .setTextAlign( TextParagraph.TextAlign.LEFT );
+            addShape( txt );
+        }
     }
 
     private Rectangle2D getTextBox( final String s,
@@ -420,11 +1146,13 @@ public class PPTGraphics2D extends Graphics2D {
         }
         final int aWidth = ( int ) ( rec.getWidth() + charWidth + supp );
         final int aHeight = ( int ) ( rec2.getHeight() + supp );
-        final int deltaPos = ( int ) ( ( ( rec.getHeight() - rec2.getHeight() - lm.getAscent() )
-                + lm.getDescent() ) - lm.getLeading() );
+        final int deltaPos = ( int ) (
+                ( ( rec.getHeight() - rec2.getHeight() - lm.getAscent() )
+                  + lm.getDescent() ) - lm.getLeading() );
 
         rec2.setRect( ( ( x + rec.getWidth() ) - stringWidth ) + deltaX,
-                      ( ( ( y - rec2.getHeight() ) + lm.getLeading() ) - deltaPos ) + deltaY,
+                      ( ( ( y - rec2.getHeight() ) + lm.getLeading() )
+                        - deltaPos ) + deltaY,
                       aWidth,
                       aHeight );
         if ( !acceptSmallShapes ) {
@@ -436,92 +1164,35 @@ public class PPTGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void clip( Shape shape ) {
-        shape = ShapeUtilities.createTransformedShape( shape, trans );
-        if ( deviceclip != null ) {
-            final Area area = new Area( deviceclip );
-            if ( shape != null ) {
-                area.intersect( new Area( shape ) );
-            }
-            shape = area;
-        }
-        deviceclip = shape;
+    public void drawGlyphVector( final GlyphVector vec,
+                                 final float x,
+                                 final float y ) {
+        fill( vec.getOutline( x, y ) );
     }
 
     @Override
-    public void clipRect( final int x, final int y, final int aWidth, final int aHeight ) {
-        clip( new Rectangle( x, y, aWidth, aHeight ) );
-    }
-
-    @Override
-    public void copyArea( final int x,
-                          final int y,
-                          final int aWidth,
-                          final int aHeight,
-                          final int dx,
-                          final int dy ) {
-        g2D.copyArea( x, y, aWidth, aHeight, dx, dy );
-    }
-
-    @Override
-    public Graphics create() {
-        final PPTGraphics2D pptgraphics2d = new PPTGraphics2D( this );
-
-        return pptgraphics2d;
-    }
-
-    @Override
-    public void dispose() {
-        g2D.dispose();
-        // img.flush();
-    }
-
-    /**
-     * Return true if the Shape can be drawn. The default implementation is if
-     * both the width and height of the Shape
-     * are greater than 1.
-     *
-     * @param shape
-     *            the Shape
-     * @return true if the Shape can be drawn
-     */
-    protected boolean acceptDrawShape( final Shape shape ) {
-        if ( acceptSmallShapes ) {
-            return true;
-        }
-        else {
-            return ( shape.getBounds2D().getHeight() >= 1f )
-                    || ( shape.getBounds2D().getWidth() >= 1f );
-        }
-    }
-
-    /**
-     * Return true if the Shape can be filled. The default implementation is if
-     * both the width and height of the Shape
-     * are greater than 1.
-     *
-     * @param shape
-     *            the Shape
-     * @return true if the Shape can be drawn
-     */
-    protected boolean acceptFillShape( final Shape shape ) {
-        if ( acceptSmallShapes ) {
-            return true;
-        }
-        else {
-            return ( shape.getBounds2D().getHeight() >= 1f )
-                    && ( shape.getBounds2D().getWidth() >= 1f );
-        }
-    }
-
-    @Override
-    public void draw( Shape shape ) {
+    public void fill( Shape shape ) {
         shape = transformShape( shape );
         if ( shape != null ) {
-            if ( acceptDrawShape( shape ) ) {
-                doDrawing( shape );
+            if ( acceptFillShape( shape ) ) {
+                doFilling( shape );
             }
         }
+    }
+
+    @Override
+    public boolean hit( final Rectangle rectangle,
+                        final Shape shape,
+                        final boolean flag ) {
+        g2D.setTransform( trans );
+        g2D.setStroke( getStroke() );
+        g2D.setClip( getClip() );
+        return g2D.hit( rectangle, shape, flag );
+    }
+
+    @Override
+    public GraphicsConfiguration getDeviceConfiguration() {
+        return g2D.getDeviceConfiguration();
     }
 
     private void doDrawing( final Shape shape ) {
@@ -548,11 +1219,15 @@ public class PPTGraphics2D extends Graphics2D {
     private Color getBrighterColor( final GradientPaint paint ) {
         final Color col1 = paint.getColor1();
         final Color col2 = paint.getColor2();
-        final float rgb1 = ( ( 0.299f * col1.getRed() ) + ( 0.587f * col1.getGreen() )
-                + ( 0.114f * col1.getBlue() ) ) / 255f;
-        final float rgb2 = ( ( 0.299f * col2.getRed() ) + ( 0.587f * col2.getGreen() )
-                + ( 0.114f * col2.getBlue() ) ) / 255f;
-        return rgb1 > rgb2 ? col1 : col2;
+        final float rgb1 =
+                ( ( 0.299f * col1.getRed() ) + ( 0.587f * col1.getGreen() ) + (
+                        0.114f * col1.getBlue() ) ) / 255f;
+        final float rgb2 =
+                ( ( 0.299f * col2.getRed() ) + ( 0.587f * col2.getGreen() ) + (
+                        0.114f * col2.getBlue() ) ) / 255f;
+        return rgb1 > rgb2
+               ? col1
+               : col2;
     }
 
     private void setShapeDrawProperties( final HSLFSimpleShape shape ) {
@@ -576,8 +1251,10 @@ public class PPTGraphics2D extends Graphics2D {
             // we need to set the transparency property for the
             // records used for the fill
             if ( color.getAlpha() != 255 ) {
-                final EscherOptRecord opt = ( EscherOptRecord ) HSLFShape
-                        .getEscherChild( shape.getSpContainer(), EscherOptRecord.RECORD_ID );
+                final EscherOptRecord opt
+                        =
+                        ( EscherOptRecord ) HSLFShape.getEscherChild( shape.getSpContainer(),
+                                                                        EscherOptRecord.RECORD_ID );
                 // int alpha = (p.getPropertyValue() >> 8) & 0xFF;
                 final int alpha = color.getAlpha() << 8;
                 /*
@@ -606,11 +1283,12 @@ public class PPTGraphics2D extends Graphics2D {
             // will draw outside of the BufferedImage
             Rectangle rec = outline.getBounds();
             // we don't want to clip the outline to fill !!
-            outline = ShapeUtilities
-                    .createTransformedShape( outline,
-                                             AffineTransform.getTranslateInstance( -rec.x,
-                                                                                   -rec.y ) );
-            if ( ( outline != null ) && ( rec.width > 0 ) && ( rec.height > 0 ) ) {
+            outline = ShapeUtilities.createTransformedShape( outline,
+                                                             AffineTransform.getTranslateInstance(
+                                                                     -rec.x,
+                                                                     -rec.y ) );
+            if ( ( outline != null ) && ( rec.width > 0 ) && ( rec.height
+                                                               > 0 ) ) {
                 final BufferedImage bimg = new BufferedImage( rec.width,
                                                               rec.height,
                                                               BufferedImage.TYPE_INT_ARGB );
@@ -618,14 +1296,16 @@ public class PPTGraphics2D extends Graphics2D {
                 g2d.setPaint( paint );
                 g2d.fill( outline );
                 try {
-                    final ByteArrayOutputStream stream = new ByteArrayOutputStream( 100 );
+                    final ByteArrayOutputStream stream
+                            = new ByteArrayOutputStream( 100 );
                     ImageIO.write( bimg, "png", stream );
                     stream.flush();
                     stream.close();
 
                     final byte[] b = stream.toByteArray();
                     final HSLFSlideShow show = slide.getSlideShow();
-                    final HSLFPictureData idx = show.addPicture( b, PictureData.PictureType.PNG );
+                    final HSLFPictureData idx = show.addPicture( b,
+                                                                 PictureData.PictureType.PNG );
 
                     final HSLFPictureShape pict = doCreatePicture( idx );
 
@@ -640,21 +1320,10 @@ public class PPTGraphics2D extends Graphics2D {
                     setShapeFillingAdditionalProperties( pict );
                     addShape( pict );
                 }
-                catch ( final IOException e ) {}
+                catch ( final IOException e ) {
+                }
             }
         }
-    }
-
-    /**
-     * Creates a picture Shape.
-     *
-     * @param data
-     *            the picture data
-     * @return the picture Shape
-     */
-    protected HSLFPictureShape doCreatePicture( final HSLFPictureData data ) {
-        final HSLFPictureShape pict = new HSLFPictureShape( data );
-        return pict;
     }
 
     /**
@@ -699,29 +1368,23 @@ public class PPTGraphics2D extends Graphics2D {
         return text;
     }
 
-    private boolean isWellAligned( final Rectangle2D boundingBox, final Line2D line ) {
-        if ( ( FastMath.abs( boundingBox.getMinX() - line.getX1() ) <= ASSUME_ZERO )
-                && ( FastMath.abs( boundingBox.getMinY() - line.getY1() ) <= ASSUME_ZERO ) ) {
+    private boolean isWellAligned( final Rectangle2D boundingBox,
+                                   final Line2D line ) {
+        if ( ( FastMath.abs( boundingBox.getMinX() - line.getX1() )
+               <= ASSUME_ZERO ) && (
+                     FastMath.abs( boundingBox.getMinY() - line.getY1() )
+                     <= ASSUME_ZERO ) ) {
             return true;
         }
-        else if ( ( FastMath.abs( boundingBox.getMinX() - line.getX2() ) <= ASSUME_ZERO )
-                && ( FastMath.abs( boundingBox.getMinY() - line.getY2() ) <= ASSUME_ZERO ) ) {
+        else if ( ( FastMath.abs( boundingBox.getMinX() - line.getX2() )
+                    <= ASSUME_ZERO ) && (
+                          FastMath.abs( boundingBox.getMinY() - line.getY2() )
+                          <= ASSUME_ZERO ) ) {
             return true;
         }
         else {
             return false;
         }
-    }
-
-    /**
-     * Add the Shape to the Slide.
-     *
-     * @param shape
-     *            the Shape
-     */
-    protected void addShape( final HSLFShape shape ) {
-        shape.setSheet( slide );
-        slide.addShape( shape );
     }
 
     private void doLineDrawing( final Line2D line ) {
@@ -748,7 +1411,8 @@ public class PPTGraphics2D extends Graphics2D {
         setShapeDrawProperties( linep );
     }
 
-    private void doRectangleDrawing( final Rectangle2D rec, final int type ) {
+    private void doRectangleDrawing( final Rectangle2D rec,
+                                     final int type ) {
         final HSLFAutoShape recp = doCreateAutoShape( ShapeType.RECT );
         recp.setSheet( slide );
         recp.setAnchor( rec.getBounds() );
@@ -761,7 +1425,8 @@ public class PPTGraphics2D extends Graphics2D {
         }
     }
 
-    private void doRoundRectangleDrawing( final RoundRectangle2D rec, final int type ) {
+    private void doRoundRectangleDrawing( final RoundRectangle2D rec,
+                                          final int type ) {
         final HSLFFreeformShape recp = doCreateFreeformShape();
         recp.setPath( new Path2D.Double( rec ) );
 
@@ -773,9 +1438,13 @@ public class PPTGraphics2D extends Graphics2D {
         else {
             setShapeFillProperties( recp );
         }
+    }    @Override
+    public Color getBackground() {
+        return Color.WHITE;
     }
 
-    private void doEllipse2DDrawing( final Ellipse2D e, final int type ) {
+    private void doEllipse2DDrawing( final Ellipse2D e,
+                                     final int type ) {
         final HSLFAutoShape ellipse = doCreateAutoShape( ShapeType.ELLIPSE );
 
         ellipse.setSheet( slide );
@@ -789,7 +1458,8 @@ public class PPTGraphics2D extends Graphics2D {
         }
     }
 
-    private void doArc2DDrawing( Arc2D arc, final int type ) {
+    private void doArc2DDrawing( Arc2D arc,
+                                 final int type ) {
         if ( FastMath.abs( arc.getAngleExtent() ) >= 360 ) {
             final Ellipse2D e = new Ellipse2D.Double( arc.getX(),
                                                       arc.getY(),
@@ -835,9 +1505,11 @@ public class PPTGraphics2D extends Graphics2D {
      * @param shape
      *            the Shape
      */
-    protected void setShapeFillingAdditionalProperties( final HSLFSimpleShape shape ) {}
+    protected void setShapeFillingAdditionalProperties( final HSLFSimpleShape shape ) {
+    }
 
-    private void doShapeDrawing( final Shape shape, final int type ) {
+    private void doShapeDrawing( final Shape shape,
+                                 final int type ) {
         final HSLFFreeformShape free = doCreateFreeformShape();
 
         free.setSheet( slide );
@@ -850,7 +1522,8 @@ public class PPTGraphics2D extends Graphics2D {
         free.setAnchor( rec );
 
         final AffineTransform affinetransform = new AffineTransform();
-        final PathIterator pathiterator = shape.getPathIterator( affinetransform );
+        final PathIterator pathiterator
+                = shape.getPathIterator( affinetransform );
         final ShapeNormalizer shapeNorm = new ShapeNormalizer( true );
         final List< Shape > shapes = shapeNorm.convertPath( pathiterator );
 
@@ -859,10 +1532,11 @@ public class PPTGraphics2D extends Graphics2D {
             if ( _shape instanceof Polyline2D ) {
                 final Polyline2D pol = ( Polyline2D ) _shape;
                 if ( pol.npoints == 2 ) {
-                    final Line2D.Float line = new Line2D.Float( pol.xpoints[ 0 ],
-                                                                pol.ypoints[ 0 ],
-                                                                pol.xpoints[ 1 ],
-                                                                pol.ypoints[ 1 ] );
+                    final Line2D.Float line
+                            = new Line2D.Float( pol.xpoints[ 0 ],
+                                                pol.ypoints[ 0 ],
+                                                pol.xpoints[ 1 ],
+                                                pol.ypoints[ 1 ] );
                     doAddShape( free, line, type );
                 }
                 else {
@@ -876,9 +1550,14 @@ public class PPTGraphics2D extends Graphics2D {
         else {
             doAddShape( free, shape, type );
         }
+    }    @Override
+    public Composite getComposite() {
+        return g2D.getComposite();
     }
 
-    private void doAddShape( final HSLFFreeformShape free, final Shape shape, final int type ) {
+    private void doAddShape( final HSLFFreeformShape free,
+                             final Shape shape,
+                             final int type ) {
         final Path2D.Double path = new Path2D.Double( shape );
         free.setPath( path );
         if ( type == ACTION_DRAW ) {
@@ -888,278 +1567,6 @@ public class PPTGraphics2D extends Graphics2D {
             setShapeFillProperties( free );
         }
         addShape( free );
-    }
-
-    @Override
-    public void drawArc( final int x,
-                         final int y,
-                         final int aWidth,
-                         final int aHeight,
-                         final int startAngle,
-                         final int arcAngle ) {
-        draw( new Arc2D.Float( x, y, aWidth, aHeight, startAngle, arcAngle, 0 ) );
-    }
-
-    @Override
-    public void drawGlyphVector( final GlyphVector vec, final float x, final float y ) {
-        fill( vec.getOutline( x, y ) );
-    }
-
-    /**
-     * Create a PNG image as a byte array from a rendered Image. PNG is chosen
-     * because JPEG
-     * seems not adapted to batik or POI (inverts colors in the resulted image).
-     */
-    private byte[] getImageData( final Image image,
-                                 final int iWidth,
-                                 final int iHeight,
-                                 final ImageObserver observer )
-            throws IOException {
-        final BufferedImage bufImage = new BufferedImage( iWidth,
-                                                          iHeight,
-                                                          BufferedImage.TYPE_INT_ARGB );
-        final Graphics2D g2d = bufImage.createGraphics();
-        g2d.drawImage( image, new AffineTransform(), observer );
-
-        final ByteArrayOutputStream stream = new ByteArrayOutputStream( 100 );
-
-        ImageIO.write( bufImage, "png", stream );
-        stream.flush();
-        stream.close();
-
-        return stream.toByteArray();
-    }
-
-    private void addImage( final Image image, Rectangle rec, final ImageObserver observer ) {
-        final HSLFSlideShow show = slide.getSlideShow();
-        try {
-            final byte[] b = getImageData( image, rec.width, rec.height, observer );
-            final HSLFPictureData idx = show.addPicture( b, PictureData.PictureType.PNG );
-
-            final HSLFPictureShape pict = doCreatePicture( idx );
-            rec = new Rectangle( rec.x, rec.y, rec.width, rec.height );
-            pict.setAnchor( rec );
-
-            // filling with a null color is important else a default color will
-            // mask the image
-            pict.setFillColor( null );
-            pict.setLineColor( null );
-            addShape( pict );
-        }
-        catch ( final IOException e ) {}
-    }
-
-    private boolean isEmpty( final Rectangle rec ) {
-        return rec.isEmpty() || ( rec.width <= 0 ) || ( rec.height <= 0 );
-    }
-
-    @Override
-    public boolean drawImage( final Image image,
-                              final int dx1,
-                              final int dy1,
-                              final int dx2,
-                              final int dy2,
-                              final int sx1,
-                              final int sy1,
-                              final int sx2,
-                              final int sy2,
-                              final Color color1,
-                              final ImageObserver observer ) {
-        final Rectangle recdst = new Rectangle( dx1, dy1, dx2 - dx1, dy2 - dy1 );
-        final Rectangle rec = getTransformedForImage( recdst );
-        if ( rec != null ) {
-            addImage( image, rec, observer );
-
-        }
-        return true;
-    }
-
-    private Rectangle getTransformedForImage( final Rectangle recdst ) {
-        if ( !isEmpty( recdst ) ) {
-            final AffineTransform rotation = ShapeUtilities.getRotationTransform( trans );
-            if ( rotation.isIdentity() ) {
-                final Shape shape = transformShape( recdst );
-                if ( shape != null ) {
-                    final Rectangle rec = shape.getBounds();
-                    return rec;
-                }
-                else {
-                    return null;
-                }
-            }
-            else {
-                final AffineTransform tr = AffineTransform
-                        .getTranslateInstance( -trans.getTranslateX(), -trans.getTranslateY() );
-                final Shape shape = tr.createTransformedShape( recdst );
-                if ( shape != null ) {
-                    final Rectangle rec = shape.getBounds();
-                    return rec;
-                }
-                else {
-                    return null;
-                }
-            }
-        }
-        else {
-            return null;
-        }
-    }
-
-    @Override
-    public boolean drawImage( final Image image,
-                              final int dx1,
-                              final int dy1,
-                              final int dx2,
-                              final int dy2,
-                              final int sx1,
-                              final int sy1,
-                              final int sx2,
-                              final int sy2,
-                              final ImageObserver observer ) {
-        return drawImage( image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null, observer );
-    }
-
-    @Override
-    public boolean drawImage( final Image image,
-                              final int x,
-                              final int y,
-                              final int iWidth,
-                              final int iHeight,
-                              final Color theColor,
-                              final ImageObserver observer ) {
-        final Rectangle rectangle = new Rectangle( x, y, iWidth, iHeight );
-        final Rectangle rec = getTransformedForImage( rectangle );
-        if ( rec != null ) {
-            addImage( image, rec, observer );
-        }
-        addImage( image, rec, observer );
-
-        return true;
-    }
-
-    @Override
-    public boolean drawImage( final Image image,
-                              final int x,
-                              final int y,
-                              final int aWidth,
-                              final int aHeight,
-                              final ImageObserver observer ) {
-        return drawImage( image, x, y, aWidth, aHeight, null, observer );
-    }
-
-    @Override
-    public boolean drawImage( final Image image,
-                              final int x,
-                              final int y,
-                              final Color aColor,
-                              final ImageObserver observer ) {
-        return drawImage( image,
-                          x,
-                          y,
-                          image.getWidth( observer ),
-                          image.getHeight( observer ),
-                          aColor,
-                          observer );
-    }
-
-    @Override
-    public boolean drawImage( final Image image,
-                              final int x,
-                              final int y,
-                              final ImageObserver observer ) {
-        return drawImage( image,
-                          x,
-                          y,
-                          image.getWidth( observer ),
-                          image.getHeight( observer ),
-                          observer );
-    }
-
-    @Override
-    public boolean drawImage( final Image image,
-                              final AffineTransform tr,
-                              final ImageObserver imageobserver ) {
-        final AffineTransform affine1 = ( AffineTransform ) trans.clone();
-
-        trans.concatenate( tr );
-        drawImage( image, 0, 0, imageobserver );
-        trans = affine1;
-        return true;
-    }
-
-    @Override
-    public void drawImage( final BufferedImage image,
-                           final BufferedImageOp imageOp,
-                           final int i,
-                           final int j ) {
-        final BufferedImage bufImage1 = imageOp.filter( image, null );
-        drawImage( bufImage1, new AffineTransform( 1.0f, 0.0f, 0.0f, 1.0f, i, j ), null );
-    }
-
-    @Override
-    public void drawLine( final int x1, final int y1, final int x2, final int y2 ) {
-        draw( new Line2D.Float( x1, y1, x2, y2 ) );
-    }
-
-    @Override
-    public void drawOval( final int x, final int y, final int aWidth, final int aHeight ) {
-        draw( new Ellipse2D.Float( x, y, aWidth, aHeight ) );
-    }
-
-    @Override
-    public void drawPolygon( final int xPoints[], final int yPoints[], final int nPoints ) {
-        draw( new Polygon( xPoints, yPoints, nPoints ) );
-    }
-
-    @Override
-    public void drawPolyline( final int xPoints[], final int yPoints[], final int nPoints ) {
-        if ( nPoints > 0 ) {
-            final GeneralPath generalpath = new GeneralPath();
-
-            generalpath.moveTo( xPoints[ 0 ], yPoints[ 0 ] );
-            for ( int j = 1; j < nPoints; j++ ) {
-                generalpath.lineTo( xPoints[ j ], yPoints[ j ] );
-            }
-
-            draw( generalpath );
-        }
-    }
-
-    @Override
-    public void drawRect( final int x, final int y, final int aWidth, final int aHeight ) {
-        final Rectangle rectangle = new Rectangle( x, y, aWidth, aHeight );
-
-        draw( rectangle );
-    }
-
-    @Override
-    public void drawRenderableImage( final RenderableImage image,
-                                     final AffineTransform transform ) {
-        drawRenderedImage( image.createDefaultRendering(), transform );
-    }
-
-    @Override
-    public void drawRenderedImage( final RenderedImage image, final AffineTransform transform ) {
-        final BufferedImage bufferedimage = new BufferedImage( image
-                .getColorModel(), image.getData().createCompatibleWritableRaster(), false, null );
-
-        bufferedimage.setData( image.getData() );
-        drawImage( bufferedimage, transform, null );
-    }
-
-    @Override
-    public void drawRoundRect( final int x,
-                               final int y,
-                               final int aWidth,
-                               final int aHeight,
-                               final int arcWidth,
-                               final int arcHeight ) {
-        draw( new RoundRectangle2D.Float( x, y, aWidth, aHeight, arcWidth, arcHeight ) );
-    }
-
-    @Override
-    public void drawString( final String s, final float x, final float y ) {
-        doDrawString( s, x, y );
     }
 
     /**
@@ -1180,7 +1587,9 @@ public class PPTGraphics2D extends Graphics2D {
         }
     }
 
-    private void doDrawString( final String s, final float x, final float y ) {
+    private void doDrawString( final String s,
+                               final float x,
+                               final float y ) {
         // set escapement (rotation of the text)
         final float rot = -( float ) ShapeUtilities.getRotationAngle( trans );
         final boolean rotated = rot != 0;
@@ -1200,7 +1609,8 @@ public class PPTGraphics2D extends Graphics2D {
             layoutRec = shape.getBounds2D();
             final Rectangle2D rec = getTextBox( s,
                                                 layoutRec.getX(),
-                                                layoutRec.getY() + fontMetrics.getDescent(),
+                                                layoutRec.getY()
+                                                + fontMetrics.getDescent(),
                                                 rotated,
                                                 rot );
 
@@ -1211,13 +1621,16 @@ public class PPTGraphics2D extends Graphics2D {
             if ( clipState == INTERSECT_CLIP ) {
                 if ( hardClipTexts ) {
                     final Rectangle clipRec = deviceclip.getBounds();
-                    final BufferedImage buf = new BufferedImage( ( int ) clipRec.getWidth(),
-                                                                 ( int ) clipRec.getHeight(),
-                                                                 BufferedImage.TYPE_INT_ARGB );
+                    final BufferedImage buf
+                            = new BufferedImage( ( int ) clipRec.getWidth(),
+                                                 ( int ) clipRec.getHeight(),
+                                                 BufferedImage.TYPE_INT_ARGB );
                     final Graphics2D clipG2D = buf.createGraphics();
                     clipG2D.setColor( color );
-                    final AffineTransform tr = AffineTransform
-                            .getTranslateInstance( -clipRec.getX(), -clipRec.getY() );
+                    final AffineTransform tr
+                            =
+                            AffineTransform.getTranslateInstance( -clipRec.getX(),
+                                                                    -clipRec.getY() );
                     final Shape _clip = tr.createTransformedShape( deviceclip );
                     clipG2D.clip( _clip );
                     layout.draw( clipG2D, 0, 0 );
@@ -1237,7 +1650,9 @@ public class PPTGraphics2D extends Graphics2D {
         }
     }
 
-    private void drawUnclippedText( final String s, final Rectangle2D rec, final float rot ) {
+    private void drawUnclippedText( final String s,
+                                    final Rectangle2D rec,
+                                    final float rot ) {
         final HSLFTextBox txt = doCreateTextBox();
 
         txt.setWordWrap( false );
@@ -1267,7 +1682,10 @@ public class PPTGraphics2D extends Graphics2D {
         // need to use AnchorTop and not AlignCenter
         txt.setVerticalAlignment( VerticalAlignment.TOP );
         // use RichTextRun to work with the text format
-        final HSLFTextRun rt = txt.getTextParagraphs().get( 0 ).getTextRuns().get( 0 );
+        final HSLFTextRun rt = txt.getTextParagraphs()
+                                  .get( 0 )
+                                  .getTextRuns()
+                                  .get( 0 );
 
         rt.setFontSize( ( double ) font.getSize2D() );
         rt.setText( s );
@@ -1276,7 +1694,9 @@ public class PPTGraphics2D extends Graphics2D {
         // thanks Mark Schmieder for the fix
         final String fontName = font.getFontName( locale );
         final HSLFFontInfo fInfo = coll.getFontInfo( fontName );
-        final int fIndex = ( fInfo == null ) ? -1 : fInfo.getIndex();
+        final int fIndex = ( fInfo == null )
+                           ? -1
+                           : fInfo.getIndex();
         if ( fIndex == -1 ) {
             rt.setFontFamily( font.getFamily() );
         }
@@ -1287,110 +1707,14 @@ public class PPTGraphics2D extends Graphics2D {
         rt.setItalic( font.isItalic() );
         rt.setFontColor( getColor() );
         // need to use AlignLeft and not AlignCenter
-        txt.getTextParagraphs().get( 0 ).setTextAlign( TextParagraph.TextAlign.LEFT );
+        txt.getTextParagraphs()
+           .get( 0 )
+           .setTextAlign( TextParagraph.TextAlign.LEFT );
         addShape( txt );
-    }
-
-    @Override
-    public void drawString( final String s, final int x, final int y ) {
-        drawString( s, ( float ) x, ( float ) y );
-    }
-
-    @Override
-    public void drawString( final AttributedCharacterIterator ati, final float x, final float y ) {
-        // now iterate through all the runs
-        ati.first();
-        while ( ati.current() != CharacterIterator.DONE ) {
-            // retrieve the current span of text for the run
-            final StringBuilder buf = new StringBuilder();
-
-            while ( true ) {
-                buf.append( ati.current() );
-                if ( ati.getIndex() == ( ati.getRunLimit() - 1 ) ) {
-                    ati.next();
-                    break;
-                }
-                else {
-                    ati.next();
-                }
-            }
-            final String s = buf.toString();
-            final HSLFTextBox txt = new HSLFTextBox();
-
-            txt.setSheet( slide );
-            txt.setFillColor( null );
-            txt.setLineColor( null );
-            txt.setText( s );
-
-            // set escapement (rotation of the text)
-            final float rot = ( float ) FastMath.atan2( trans.getShearX(), trans.getScaleX() );
-            boolean rotated = false;
-
-            if ( FastMath.abs( rot ) > TEXT_MIN_ESCAPE ) {
-                txt.setRotation( ( int ) ( ( -rot * 180d ) / FastMath.PI ) );
-                rotated = true;
-            }
-
-            final double _x = x;
-            final double _y = y;
-
-            final Point2D.Double pt = new Point2D.Double( _x + getFont().getTransform()
-                    .getTranslateX(), _y + getFont().getTransform().getTranslateY() );
-
-            txt.setAnchor( getTextBox( s, pt.getX(), pt.getY(), rotated, rot ).getBounds() );
-            txt.setTopInset( 0f );
-            txt.setBottomInset( 0f );
-            txt.setLeftInset( 0f );
-            txt.setRightInset( 0f );
-            // need to use AnchorTop and not AlignCenter
-            txt.setVerticalAlignment( VerticalAlignment.TOP );
-            // use RichTextRun to work with the text format
-            final HSLFTextRun rt = txt.getTextParagraphs().get( 0 ).getTextRuns().get( 0 );
-            rt.setFontSize( ( double ) font.getSize2D() );
-
-            // the coll.getFontIndex(fontName) method does not exist anymore in
-            // POI 3.17
-            // thanks Mark Schmieder for the fix
-            final String fontName = font.getFontName( locale );
-
-            final HSLFFontInfo fInfo = coll.getFontInfo( fontName );
-            final int fIndex = ( fInfo == null ) ? -1 : fInfo.getIndex();
-            if ( fIndex == -1 ) {
-                rt.setFontFamily( font.getFamily() );
-            }
-            else {
-                rt.setFontIndex( fIndex );
-            }
-            rt.setBold( font.isBold() );
-            rt.setItalic( font.isItalic() );
-            rt.setFontColor( getColor() );
-            // need to use AlignLeft and not AlignCenter
-            txt.getTextParagraphs().get( 0 ).setTextAlign( TextParagraph.TextAlign.LEFT );
-            addShape( txt );
-        }
-    }
-
-    @Override
-    public void drawString( final AttributedCharacterIterator ati, final int x, final int y ) {
-        final float fx = x;
-        final float fy = y;
-        drawString( ati, fx, fy );
-    }
-
-    protected Shape transformShape( Shape shape ) {
-        shape = ShapeUtilities.createTransformedShape( shape, trans );
-        shape = getClippedShape( shape );
-        return shape;
-    }
-
-    @Override
-    public void fill( Shape shape ) {
-        shape = transformShape( shape );
-        if ( shape != null ) {
-            if ( acceptFillShape( shape ) ) {
-                doFilling( shape );
-            }
-        }
+    }    @Override
+    public FontRenderContext getFontRenderContext() {
+        g2D.setTransform( trans );
+        return g2D.getFontRenderContext();
     }
 
     private boolean doFilling( final Shape shape ) {
@@ -1408,7 +1732,8 @@ public class PPTGraphics2D extends Graphics2D {
                 doRectangleDrawing( ( Rectangle2D ) shape, ACTION_FILL );
             }
             else if ( shape instanceof RoundRectangle2D ) {
-                doRoundRectangleDrawing( ( RoundRectangle2D ) shape, ACTION_FILL );
+                doRoundRectangleDrawing( ( RoundRectangle2D ) shape,
+                                         ACTION_FILL );
             }
             else {
                 doShapeDrawing( shape, ACTION_FILL );
@@ -1418,6 +1743,9 @@ public class PPTGraphics2D extends Graphics2D {
         else {
             return false;
         }
+    }    @Override
+    public Paint getPaint() {
+        return paint;
     }
 
     private Shape getClippedArea( final Shape shape ) {
@@ -1450,155 +1778,108 @@ public class PPTGraphics2D extends Graphics2D {
         }
 
         return outputShape;
-    }
-
-    private Shape getClippedShape( final Shape shape ) {
-        Shape outputShape;
-        if ( deviceclip != null ) {
-            final Area clip = new Area( deviceclip );
-            final Rectangle2D bounds = shape.getBounds2D();
-            if ( ( bounds.getWidth() < 0.1 ) || ( bounds.getHeight() < 0.1 ) ) {
-                final double boundsWidth = FastMath.max( 0.1, bounds.getWidth() );
-                final double boundsHeight = FastMath.max( 0.1, bounds.getHeight() );
-                bounds.setRect( bounds.getX(), bounds.getY(), boundsWidth, boundsHeight );
-            }
-            /*
-             * need to use getBounds and not getBounds2D, because there
-             * getBounds2D for a
-             * vertical or horizontal line gets a Rectangle2D with no width or
-             * height,
-             * and in this case there is no intersection
-             */
-            if ( clip.contains( bounds ) ) {
-                outputShape = shape;
-            }
-            else if ( clip.intersects( bounds ) ) {
-                final ClippableShape csh = new ClippableShape( shape );
-                csh.intersect( clip );
-                outputShape = csh.getPeerShape();
-            }
-            else {
-                outputShape = null;
-            }
-        }
-        else {
-            outputShape = shape;
-        }
-        return outputShape;
-    }
-
-    @Override
-    public void fillArc( final int x,
-                         final int y,
-                         final int aWidth,
-                         final int aHeight,
-                         final int startAngle,
-                         final int arcAngle ) {
-        fill( new java.awt.geom.Arc2D.Float( x, y, aWidth, aHeight, startAngle, arcAngle, 2 ) );
-    }
-
-    @Override
-    public void fillOval( final int x, final int y, final int aWidth, final int aHeight ) {
-        fill( new java.awt.geom.Ellipse2D.Float( x, y, aWidth, aHeight ) );
-    }
-
-    @Override
-    public void fillPolygon( final int xPoints[], final int yPoints[], final int nPoints ) {
-        fill( new Polygon( xPoints, yPoints, nPoints ) );
-    }
-
-    @Override
-    public void fillRect( final int x, final int y, final int rWidth, final int rHeight ) {
-        fill( new Rectangle( x, y, rWidth, rHeight ) );
-    }
-
-    @Override
-    public void fillRoundRect( final int x,
-                               final int y,
-                               final int rWidth,
-                               final int rHeight,
-                               final int arcWidth,
-                               final int arcHeight ) {
-        fill( new java.awt.geom.RoundRectangle2D.Float( x,
-                                                        y,
-                                                        rWidth,
-                                                        rHeight,
-                                                        arcWidth,
-                                                        arcHeight ) );
-    }
-
-    @Override
-    public Color getBackground() {
-        return Color.WHITE;
-    }
-
-    @Override
-    public Shape getClip() {
-        try {
-            return ShapeUtilities.createTransformedShape( deviceclip, trans.createInverse() );
-        }
-        catch ( final Exception _ex ) {
-            return null;
-        }
-    }
-
-    @Override
-    public Rectangle getClipBounds() {
-        if ( deviceclip != null ) {
-            return getClip().getBounds();
-        }
-        else {
-            return null;
-        }
-    }
-
-    @Override
-    public Color getColor() {
-        return color;
-    }
-
-    @Override
-    public Composite getComposite() {
-        return g2D.getComposite();
-    }
-
-    @Override
-    public GraphicsConfiguration getDeviceConfiguration() {
-        return g2D.getDeviceConfiguration();
-    }
-
-    @Override
-    public Font getFont() {
-        return g2D.getFont();
-    }
-
-    @Override
-    public FontMetrics getFontMetrics( final Font font ) {
-        return g2D.getFontMetrics( font );
-    }
-
-    @Override
-    public FontRenderContext getFontRenderContext() {
-        g2D.setTransform( trans );
-        return g2D.getFontRenderContext();
-    }
-
-    @Override
-    public Paint getPaint() {
-        return paint;
-    }
-
-    @Override
+    }    @Override
     public Object getRenderingHint( final java.awt.RenderingHints.Key key ) {
         return g2D.getRenderingHint( key );
     }
 
-    @Override
+    Image transformImage( final Image image,
+                          final Rectangle rec,
+                          final Rectangle rec1,
+                          final ImageObserver observer,
+                          final Color col ) {
+        if ( trans.isIdentity() && ( getClip() == null ) && ( col == null ) ) {
+            return image;
+        }
+        if ( deviceclip != null ) {
+            final Area area = new Area( deviceclip );
+
+            area.intersect( new Area( trans.createTransformedShape( rec ) ) );
+            rec1.setBounds( area.getBounds() );
+        }
+        final BufferedImage bufferedimage = new BufferedImage( rec1.width,
+                                                               rec1.height,
+                                                               2 );
+        // this cast is safe (the only reason of the existence of Graphics is
+        // because Graphics predated Graphics2D
+        // and Sun did not want to change the API when Swing was introduced), to
+        // the point that it is even a common pattern in Oracle tutorials on
+        // Swing
+        final Graphics2D graphics2d
+                = ( Graphics2D ) bufferedimage.getGraphics();
+
+        graphics2d.addRenderingHints( getRenderingHints() );
+        graphics2d.translate( -rec1.x, -rec1.y );
+        graphics2d.transform( ( AffineTransform ) getTransform().clone() );
+        graphics2d.setClip( getClip() );
+        if ( col != null ) {
+            graphics2d.drawImage( image,
+                                  rec.x,
+                                  rec.y,
+                                  rec.width,
+                                  rec.height,
+                                  col,
+                                  observer );
+        }
+        else {
+            graphics2d.drawImage( image,
+                                  rec.x,
+                                  rec.y,
+                                  rec.width,
+                                  rec.height,
+                                  observer );
+        }
+        graphics2d.dispose();
+        return bufferedimage;
+    }    @Override
     public RenderingHints getRenderingHints() {
         return g2D.getRenderingHints();
     }
 
-    @Override
+    Image transformImage( final Image image,
+                          final int ai[],
+                          final Rectangle rec,
+                          final ImageObserver observer,
+                          final Color col ) {
+        final BufferedImage buf = new BufferedImage( rec.width, rec.height, 2 );
+        // this cast is safe (the only reason of the existence of Graphics is
+        // because Graphics predated Graphics2D
+        // and Sun did not want to change the API when Swing was introduced), to
+        // the point that it is even a common pattern in Oracle tutorials on
+        // Swing
+        final Graphics2D graphics2d = ( Graphics2D ) buf.getGraphics();
+
+        graphics2d.addRenderingHints( getRenderingHints() );
+        graphics2d.translate( -rec.x, -rec.y );
+        graphics2d.transform( ( AffineTransform ) getTransform().clone() );
+        graphics2d.setClip( getClip() );
+        if ( col != null ) {
+            graphics2d.drawImage( image,
+                                  ai[ 0 ],
+                                  ai[ 1 ],
+                                  ai[ 2 ],
+                                  ai[ 3 ],
+                                  ai[ 4 ],
+                                  ai[ 5 ],
+                                  ai[ 6 ],
+                                  ai[ 7 ],
+                                  col,
+                                  observer );
+        }
+        else {
+            graphics2d.drawImage( image,
+                                  ai[ 0 ],
+                                  ai[ 1 ],
+                                  ai[ 2 ],
+                                  ai[ 3 ],
+                                  ai[ 4 ],
+                                  ai[ 5 ],
+                                  ai[ 6 ],
+                                  ai[ 7 ],
+                                  observer );
+        }
+        return buf;
+    }    @Override
     public Stroke getStroke() {
         return basicStroke;
     }
@@ -1608,13 +1889,7 @@ public class PPTGraphics2D extends Graphics2D {
         return ( AffineTransform ) trans.clone();
     }
 
-    @Override
-    public boolean hit( final Rectangle rectangle, final Shape shape, final boolean flag ) {
-        g2D.setTransform( trans );
-        g2D.setStroke( getStroke() );
-        g2D.setClip( getClip() );
-        return g2D.hit( rectangle, shape, flag );
-    }
+
 
     @Override
     public void rotate( final double theta ) {
@@ -1622,55 +1897,34 @@ public class PPTGraphics2D extends Graphics2D {
     }
 
     @Override
-    public void rotate( final double theta, final double x, final double y ) {
+    public void rotate( final double theta,
+                        final double x,
+                        final double y ) {
         trans.rotate( theta, x, y );
     }
 
     @Override
-    public void scale( final double sx, final double sy ) {
+    public void scale( final double sx,
+                       final double sy ) {
         trans.scale( sx, sy );
     }
 
     @Override
-    public void setBackground( final Color aColor ) {}
-
-    @Override
-    public void setClip( final int x, final int y, final int cWidth, final int cHeight ) {
-        setClip( new Rectangle( x, y, cWidth, cHeight ) );
+    public void setBackground( final Color aColor ) {
     }
 
-    /**
-     * Set the clipping for the next graphic orders.
-     *
-     * @param shape
-     *            the Clipping Shape
-     */
-    @Override
-    public void setClip( final Shape shape ) {
-        if ( shape != null ) {
-            deviceclip = ShapeUtilities.createTransformedShape( shape, trans );
-        }
-        else {
-            deviceclip = null;
-        }
-    }
 
-    @Override
-    public void setColor( final Color col ) {
-        setPaint( col );
-    }
+
+
+
+
 
     @Override
     public void setComposite( final Composite composite ) {
         g2D.setComposite( composite );
     }
 
-    @Override
-    public void setFont( final Font font ) {
-        g2D.setFont( font );
-        fontMetrics = getFontMetrics( font );
-        this.font = font;
-    }
+
 
     @Override
     public void setPaint( final Paint paint ) {
@@ -1686,11 +1940,11 @@ public class PPTGraphics2D extends Graphics2D {
         }
     }
 
-    @Override
-    public void setPaintMode() {}
+
 
     @Override
-    public void setRenderingHint( final java.awt.RenderingHints.Key key, final Object obj ) {
+    public void setRenderingHint( final java.awt.RenderingHints.Key key,
+                                  final Object obj ) {
         g2D.setRenderingHint( key, obj );
     }
 
@@ -1756,11 +2010,11 @@ public class PPTGraphics2D extends Graphics2D {
         trans = ( AffineTransform ) tr.clone();
     }
 
-    @Override
-    public void setXORMode( final Color aColor ) {}
+
 
     @Override
-    public void shear( final double shx, final double shy ) {
+    public void shear( final double shx,
+                       final double shy ) {
         trans.shear( shx, shy );
     }
 
@@ -1769,94 +2023,19 @@ public class PPTGraphics2D extends Graphics2D {
         trans.concatenate( tr );
     }
 
-    Image transformImage( final Image image,
-                          final Rectangle rec,
-                          final Rectangle rec1,
-                          final ImageObserver observer,
-                          final Color col ) {
-        if ( trans.isIdentity() && ( getClip() == null ) && ( col == null ) ) {
-            return image;
-        }
-        if ( deviceclip != null ) {
-            final Area area = new Area( deviceclip );
 
-            area.intersect( new Area( trans.createTransformedShape( rec ) ) );
-            rec1.setBounds( area.getBounds() );
-        }
-        final BufferedImage bufferedimage = new BufferedImage( rec1.width, rec1.height, 2 );
-        // this cast is safe (the only reason of the existence of Graphics is
-        // because Graphics predated Graphics2D
-        // and Sun did not want to change the API when Swing was introduced), to
-        // the point that it is even a common pattern in Oracle tutorials on
-        // Swing
-        final Graphics2D graphics2d = ( Graphics2D ) bufferedimage.getGraphics();
 
-        graphics2d.addRenderingHints( getRenderingHints() );
-        graphics2d.translate( -rec1.x, -rec1.y );
-        graphics2d.transform( ( AffineTransform ) getTransform().clone() );
-        graphics2d.setClip( getClip() );
-        if ( col != null ) {
-            graphics2d.drawImage( image, rec.x, rec.y, rec.width, rec.height, col, observer );
-        }
-        else {
-            graphics2d.drawImage( image, rec.x, rec.y, rec.width, rec.height, observer );
-        }
-        graphics2d.dispose();
-        return bufferedimage;
-    }
 
-    Image transformImage( final Image image,
-                          final int ai[],
-                          final Rectangle rec,
-                          final ImageObserver observer,
-                          final Color col ) {
-        final BufferedImage buf = new BufferedImage( rec.width, rec.height, 2 );
-        // this cast is safe (the only reason of the existence of Graphics is
-        // because Graphics predated Graphics2D
-        // and Sun did not want to change the API when Swing was introduced), to
-        // the point that it is even a common pattern in Oracle tutorials on
-        // Swing
-        final Graphics2D graphics2d = ( Graphics2D ) buf.getGraphics();
-
-        graphics2d.addRenderingHints( getRenderingHints() );
-        graphics2d.translate( -rec.x, -rec.y );
-        graphics2d.transform( ( AffineTransform ) getTransform().clone() );
-        graphics2d.setClip( getClip() );
-        if ( col != null ) {
-            graphics2d.drawImage( image,
-                                  ai[ 0 ],
-                                  ai[ 1 ],
-                                  ai[ 2 ],
-                                  ai[ 3 ],
-                                  ai[ 4 ],
-                                  ai[ 5 ],
-                                  ai[ 6 ],
-                                  ai[ 7 ],
-                                  col,
-                                  observer );
-        }
-        else {
-            graphics2d.drawImage( image,
-                                  ai[ 0 ],
-                                  ai[ 1 ],
-                                  ai[ 2 ],
-                                  ai[ 3 ],
-                                  ai[ 4 ],
-                                  ai[ 5 ],
-                                  ai[ 6 ],
-                                  ai[ 7 ],
-                                  observer );
-        }
-        return buf;
-    }
 
     @Override
-    public void translate( final double x, final double y ) {
+    public void translate( final double x,
+                           final double y ) {
         trans.translate( x, y );
     }
 
     @Override
-    public void translate( final int x, final int y ) {
+    public void translate( final int x,
+                           final int y ) {
         trans.translate( x, y );
     }
 }

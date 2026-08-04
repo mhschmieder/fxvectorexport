@@ -35,11 +35,6 @@
  */
 package org.jfxconverter.drivers.ppt;
 
-import javafx.geometry.Bounds;
-import javafx.scene.Node;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.InnerShadow;
 import org.apache.poi.hslf.usermodel.HSLFAutoShape;
 import org.apache.poi.hslf.usermodel.HSLFFreeformShape;
 import org.apache.poi.hslf.usermodel.HSLFGroupShape;
@@ -60,10 +55,15 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.Stack;
 
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.InnerShadow;
+
 /**
  * A PPTGraphics2D which is also an ExtendedGraphics2D. Compared to a
- * {@link PPTGraphics2D}, the following behavior is
- * supported:
+ * {@link PPTGraphics2D}, the following behavior is supported:
  * <ul>
  * <li>Grouping of Shapes</li>
  * <li>Conversions of Node Shadows</li>
@@ -71,47 +71,43 @@ import java.util.Stack;
  *
  * @version 0.21
  */
-public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2D< Node, Effect > {
-    private boolean                       supportGroups = false;
-    private final Stack< HSLFGroupShape > groups        = new Stack<>();
-    private HSLFGroupShape                curGroup      = null;
-    private DropShadow                    dshadow       = null;
-    private InnerShadow                   ishadow       = null;
+public class PPTJFXGraphics2D extends PPTGraphics2D
+        implements ExtendedGraphics2D< Node, Effect > {
+    private final Stack< HSLFGroupShape > groups = new Stack<>();
+    private boolean supportGroups = false;
+    private HSLFGroupShape curGroup = null;
+    private DropShadow dshadow = null;
+    private InnerShadow ishadow = null;
 
     /**
      * Default constructor.
      */
-    public PPTJFXGraphics2D() {}
+    public PPTJFXGraphics2D() {
+    }
 
     /**
      * Create a Graphics2D which will paint in a PPT Slide context. It will use
-     * a black background, a default white foreground,
-     * and a default stroke width of 1 pixel.
+     * a black background, a default white foreground, and a default stroke
+     * width of 1 pixel.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
+     * @param pptSlide the slide
+     * @param imWidth  the slide width
+     * @param imHeight the slide height
      */
-    public PPTJFXGraphics2D( final HSLFSlide pptSlide, final float imWidth, final float imHeight ) {
+    public PPTJFXGraphics2D( final HSLFSlide pptSlide,
+                             final float imWidth,
+                             final float imHeight ) {
         super( pptSlide, imWidth, imHeight );
     }
 
     /**
      * Create a Graphics2D which will paint in a PPT Slide context.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
-     * @param background
-     *            the slide background
-     * @param foreground
-     *            the slide foreground
+     * @param pptSlide   the slide
+     * @param imWidth    the slide width
+     * @param imHeight   the slide height
+     * @param background the slide background
+     * @param foreground the slide foreground
      */
     public PPTJFXGraphics2D( final HSLFSlide pptSlide,
                              final float imWidth,
@@ -125,14 +121,10 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
      * Create a Graphics2D which will paint in a PPT Slide context. It will use
      * a black background and a default white foreground.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
-     * @param strokeValue
-     *            the stroke width
+     * @param pptSlide    the slide
+     * @param imWidth     the slide width
+     * @param imHeight    the slide height
+     * @param strokeValue the stroke width
      */
     public PPTJFXGraphics2D( final HSLFSlide pptSlide,
                              final float imWidth,
@@ -144,18 +136,12 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
     /**
      * Create a Graphics2D which will paint in a PPT Slide context.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
-     * @param background
-     *            the slide background
-     * @param foreground
-     *            the slide foreground
-     * @param strokeValue
-     *            the stroke width
+     * @param pptSlide    the slide
+     * @param imWidth     the slide width
+     * @param imHeight    the slide height
+     * @param background  the slide background
+     * @param foreground  the slide foreground
+     * @param strokeValue the stroke width
      */
     public PPTJFXGraphics2D( final HSLFSlide pptSlide,
                              final float imWidth,
@@ -163,14 +149,18 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
                              final Color background,
                              final Color foreground,
                              final float strokeValue ) {
-        super( pptSlide, imWidth, imHeight, background, foreground, strokeValue );
+        super( pptSlide,
+               imWidth,
+               imHeight,
+               background,
+               foreground,
+               strokeValue );
     }
 
     /**
      * Copy constructor.
      *
-     * @param pptG2d
-     *            the Graphics2D used for the PPT conversion
+     * @param pptG2d the Graphics2D used for the PPT conversion
      */
     public PPTJFXGraphics2D( final PPTGraphics2D pptG2d ) {
         super( pptG2d );
@@ -178,12 +168,11 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
 
     /**
      * Set if grouping is supported. If supported, a
-     * {@link org.apache.poi.hslf.usermodel.HSLFGroupShape} will be created
-     * when the method {@link #startGroup(java.lang.String, javafx.scene.Node)}
-     * is called.
+     * {@link org.apache.poi.hslf.usermodel.HSLFGroupShape} will be created when
+     * the method {@link #startGroup(java.lang.String, javafx.scene.Node)} is
+     * called.
      *
-     * @param b
-     *            true if grouping is supported
+     * @param b true if grouping is supported
      */
     public void supportGroups( final boolean b ) {
         supportGroups = b;
@@ -201,8 +190,7 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
     /**
      * Creates a picture Shape.
      *
-     * @param data
-     *            the picture data
+     * @param data the picture data
      * @return the picture Shape
      */
     @Override
@@ -215,6 +203,22 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
             pict = new HSLFPictureShape( data );
         }
         return pict;
+    }
+
+    /**
+     * Add the Shape to the Slide or the current Group
+     *
+     * @param shape the Shape
+     */
+    @Override
+    protected void addShape( final HSLFShape shape ) {
+        shape.setSheet( slide );
+        if ( curGroup != null ) {
+            curGroup.addShape( shape );
+        }
+        else {
+            slide.addShape( shape );
+        }
     }
 
     /**
@@ -237,8 +241,7 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
     /**
      * Creates an AutoShape.
      *
-     * @param type
-     *            the AutoShape type
+     * @param type the AutoShape type
      * @return the AutoShape
      */
     @Override
@@ -288,32 +291,113 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
     }
 
     /**
-     * Add the Shape to the Slide or the current Group
+     * Add an additional Shadow to a Shape if the associated Node has a Shadow
+     * Effect.
      *
-     * @param shape
-     *            the Shape
+     * @param shape the Shape
      */
     @Override
-    protected void addShape( final HSLFShape shape ) {
-        shape.setSheet( slide );
-        if ( curGroup != null ) {
-            curGroup.addShape( shape );
+    protected void setShapeFillingAdditionalProperties( final HSLFSimpleShape shape ) {
+        if ( ( dshadow == null ) && ( ishadow == null ) ) {
+            return;
+        }
+
+        if ( dshadow != null ) {
+            setDropShadow( shape );
         }
         else {
-            slide.addShape( shape );
+            setInnerShadow( shape );
         }
+    }
+
+    /**
+     * Add a Drop Shadow to a shape.
+     *
+     * @param shape the Shape
+     */
+    private void setDropShadow( final HSLFSimpleShape shape ) {
+        // shadow color
+        final javafx.scene.paint.Color jfxColor = dshadow.getColor();
+        final int blue = ( int ) ( 255 * jfxColor.getBlue() );
+        final int green = ( int ) ( 255 * jfxColor.getGreen() );
+        final int red = ( int ) ( 255 * jfxColor.getRed() );
+        final int alpha = Units.doubleToFixedPoint(
+                jfxColor.getOpacity() * 0.5d );
+        final int rgb = new Color( red, green, blue, 0 ).getRGB();
+        /*
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__TYPE, 2 ); // 2
+                                                                          // for
+                                                                          //
+                                                                          outer
+                                                                          //
+                                                                          shadow
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__COLOR, rgb );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SHADOWOBSURED,
+         131074 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OPACITY, alpha );
+        */
+
+        // shadow offset
+        final int swidth = Units.doubleToFixedPoint( dshadow.getWidth() / 2 );
+
+        /*
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__WEIGHT, swidth );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETX, 0 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETY, 0 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEXTOX,
+        66847 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEYTOY,
+        66847 );
+        */
+    }
+
+    /**
+     * Add an Inner Shadow to a shape. Note that for the moment, it will
+     * incorrectly show an inner shadow.
+     *
+     * @param shape the Shape
+     */
+    private void setInnerShadow( final HSLFSimpleShape shape ) {
+        // shadow color
+        final javafx.scene.paint.Color jfxColor = ishadow.getColor();
+        final int blue = ( int ) ( 255 * jfxColor.getBlue() );
+        final int green = ( int ) ( 255 * jfxColor.getGreen() );
+        final int red = ( int ) ( 255 * jfxColor.getRed() );
+        final int alpha = Units.doubleToFixedPoint(
+                jfxColor.getOpacity() * 0.5d );
+        final int rgb = new Color( red, green, blue, 0 ).getRGB();
+        /*
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__TYPE, 2 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__COLOR, rgb );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SHADOWOBSURED,
+         131074 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OPACITY, alpha );
+        */
+
+        // shadow offset
+        final int swidth = Units.doubleToFixedPoint( ishadow.getWidth() / 2 );
+        final int scale = Units.doubleToFixedPoint( 0.95 );
+
+        /*
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__WEIGHT, swidth );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETX, 0 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETY, 0 );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEXTOX,
+        scale );
+        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEYTOY,
+        scale );
+        */
     }
 
     /**
      * Start a Group.
      *
-     * @param name
-     *            the group name
-     * @param node
-     *            the Node
+     * @param name the group name
+     * @param node the Node
      */
     @Override
-    public void startGroup( final String name, final Node node ) {
+    public void startGroup( final String name,
+                            final Node node ) {
         if ( supportGroups ) {
             final HSLFGroupShape group = new HSLFGroupShape();
             final Bounds bounds = node.getBoundsInParent();
@@ -325,7 +409,8 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
             // anchor. There is no need to handle the
             // coordinate system transformations between the group and the
             // children Shapes thankfully.
-            final Shape shape = ShapeUtilities.createTransformedShape( rec, trans );
+            final Shape shape = ShapeUtilities.createTransformedShape( rec,
+                                                                       trans );
             rec = shape.getBounds2D();
             group.setAnchor( rec );
             group.setSheet( slide );
@@ -345,8 +430,7 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
     /**
      * End a Group.
      *
-     * @param node
-     *            the Node
+     * @param node the Node
      */
     @Override
     public void endGroup( final Node node ) {
@@ -370,13 +454,12 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
      * </ul>
      * Note that for the moment InnerShadows will not have a correct result.
      *
-     * @param node
-     *            the Node on which the effect must be applied
-     * @param effect
-     *            the Effect
+     * @param node   the Node on which the effect must be applied
+     * @param effect the Effect
      */
     @Override
-    public void applyEffect( final Node node, final Effect effect ) {
+    public void applyEffect( final Node node,
+                             final Effect effect ) {
         dshadow = null;
         ishadow = null;
         if ( effect instanceof DropShadow ) {
@@ -385,97 +468,5 @@ public class PPTJFXGraphics2D extends PPTGraphics2D implements ExtendedGraphics2
         else if ( effect instanceof InnerShadow ) {
             ishadow = ( InnerShadow ) effect;
         }
-    }
-
-    /**
-     * Add an additional Shadow to a Shape if the associated Node has a Shadow
-     * Effect.
-     *
-     * @param shape
-     *            the Shape
-     */
-    @Override
-    protected void setShapeFillingAdditionalProperties( final HSLFSimpleShape shape ) {
-        if ( ( dshadow == null ) && ( ishadow == null ) ) {
-            return;
-        }
-
-        if ( dshadow != null ) {
-            setDropShadow( shape );
-        }
-        else {
-            setInnerShadow( shape );
-        }
-    }
-
-    /**
-     * Add a Drop Shadow to a shape.
-     *
-     * @param shape
-     *            the Shape
-     */
-    private void setDropShadow( final HSLFSimpleShape shape ) {
-        // shadow color
-        final javafx.scene.paint.Color jfxColor = dshadow.getColor();
-        final int blue = ( int ) ( 255 * jfxColor.getBlue() );
-        final int green = ( int ) ( 255 * jfxColor.getGreen() );
-        final int red = ( int ) ( 255 * jfxColor.getRed() );
-        final int alpha = Units.doubleToFixedPoint( jfxColor.getOpacity() * 0.5d );
-        final int rgb = new Color( red, green, blue, 0 ).getRGB();
-        /*
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__TYPE, 2 ); // 2
-                                                                          // for
-                                                                          // outer
-                                                                          // shadow
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__COLOR, rgb );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SHADOWOBSURED, 131074 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OPACITY, alpha );
-        */
-
-        // shadow offset
-        final int swidth = Units.doubleToFixedPoint( dshadow.getWidth() / 2 );
-
-        /*
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__WEIGHT, swidth );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETX, 0 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETY, 0 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEXTOX, 66847 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEYTOY, 66847 );
-        */
-    }
-
-    /**
-     * Add an Inner Shadow to a shape. Note that for the moment, it will
-     * incorrectly show an inner shadow.
-     *
-     * @param shape
-     *            the Shape
-     */
-    private void setInnerShadow( final HSLFSimpleShape shape ) {
-        // shadow color
-        final javafx.scene.paint.Color jfxColor = ishadow.getColor();
-        final int blue = ( int ) ( 255 * jfxColor.getBlue() );
-        final int green = ( int ) ( 255 * jfxColor.getGreen() );
-        final int red = ( int ) ( 255 * jfxColor.getRed() );
-        final int alpha = Units.doubleToFixedPoint( jfxColor.getOpacity() * 0.5d );
-        final int rgb = new Color( red, green, blue, 0 ).getRGB();
-        /*
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__TYPE, 2 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__COLOR, rgb );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SHADOWOBSURED, 131074 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OPACITY, alpha );
-        */
-
-        // shadow offset
-        final int swidth = Units.doubleToFixedPoint( ishadow.getWidth() / 2 );
-        final int scale = Units.doubleToFixedPoint( 0.95 );
-
-        /*
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__WEIGHT, swidth );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETX, 0 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__OFFSETY, 0 );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEXTOX, scale );
-        shape.setEscherProperty( EscherProperties.SHADOWSTYLE__SCALEYTOY, scale );
-        */
     }
 }

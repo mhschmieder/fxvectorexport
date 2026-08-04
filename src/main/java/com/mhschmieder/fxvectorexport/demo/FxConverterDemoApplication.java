@@ -30,11 +30,11 @@
  */
 package com.mhschmieder.fxvectorexport.demo;
 
+import java.util.Map;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-
-import java.util.Map;
 
 /**
  * {@code FxConverterDemoApplication} is an example of a JavaFX-based
@@ -58,29 +58,28 @@ import java.util.Map;
  * other aspects as this was a hastily written bare bones demo just to prove the
  * basic concepts of the converter libraries.
  *
- * @version 1.0
- *
  * @author Mark Schmieder
+ * @version 1.0
  */
 public final class FxConverterDemoApplication extends Application {
+
+    /**
+     * The preferred CSS Stylesheet needs to be cached for class-level access.
+     */
+    private String cssStylesheet;
 
     /**
      * It is advised to provide a main() method that at least explicitly calls
      * launch() so that standalone contexts are supported. The launch() method
      * calls the init() method followed by the start() method.
      *
-     * @param args
-     *            Variable command-line argument list when launched standalone.
+     * @param args Variable command-line argument list when launched
+     *             standalone.
      */
     public static void main( final String[] args ) {
         // Forward the command line arguments to the internal launcher.
         launch( args );
     }
-
-    /**
-     * The preferred CSS Stylesheet needs to be cached for class-level access.
-     */
-    private String cssStylesheet;
 
     //////////////////// Application method overrides ////////////////////////
 
@@ -94,7 +93,8 @@ public final class FxConverterDemoApplication extends Application {
         // context initialization. It includes JNLP parameters and command-line
         // JVM arguments. The preferred CSS Style Sheet can be passed here too.
         final Parameters applicationParameters = getParameters();
-        final Map< String, String > namedArguments = applicationParameters.getNamed();
+        final Map< String, String > namedArguments
+                = applicationParameters.getNamed();
 
         // Initialize anything not related to creating scenes or stages.
         initVariables( namedArguments );
@@ -109,14 +109,17 @@ public final class FxConverterDemoApplication extends Application {
 
         try {
             // Instantiate the primary application window.
-            final FxConverterDemoStage converterDemoStage = new FxConverterDemoStage();
+            final FxConverterDemoStage converterDemoStage
+                    = new FxConverterDemoStage();
 
             // Now show it, until the session ends.
             Platform.runLater( () -> converterDemoStage.show() );
         }
         catch ( final Throwable throwable ) {
             throwable.printStackTrace();
-            System.err.println( "Exiting due to error while starting FxConverterDemoApplication." ); //$NON-NLS-1$
+            System.err.println(
+                    "Exiting due to error while starting "
+                    + "FxConverterDemoApplication." ); //$NON-NLS-1$
             Platform.exit();
         }
     }
@@ -137,9 +140,9 @@ public final class FxConverterDemoApplication extends Application {
      * The initialization order is designed to minimize the chance that a
      * startup error could result before exception handling is possible.
      *
-     * @param namedArguments
-     *            The named arguments passed to the application launcher,
-     *            including JNLP parameters and command-line JVM arguments
+     * @param namedArguments The named arguments passed to the application
+     *                       launcher, including JNLP parameters and
+     *                       command-line JVM arguments
      */
     private void initVariables( final Map< String, String > namedArguments ) {
         // Make sure to set the Modena CSS style sheet explicitly, in case a
@@ -150,5 +153,4 @@ public final class FxConverterDemoApplication extends Application {
         // and/or Metro CSS for Windows, if we choose to later on.
         cssStylesheet = Application.STYLESHEET_MODENA;
     }
-
 }
