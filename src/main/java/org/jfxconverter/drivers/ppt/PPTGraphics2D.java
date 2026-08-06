@@ -103,10 +103,9 @@ import javax.imageio.ImageIO;
 
 /**
  * This implementation of the java.awt.Graphics2D abstract class allows users to
- * generate PowerPoint content from Java code.
- * The class is a functional Graphics2D class and all graphic orders will paint
- * in the PPT context.
- *
+ * generate PowerPoint content from Java code. The class is a functional
+ * Graphics2D class and all graphic orders will paint in the PPT context.
+ * <p>
  * This implementation manage:
  * <ul>
  * <li>texts, shapes, and images</li>
@@ -115,10 +114,9 @@ import javax.imageio.ImageIO;
  * <li>clippings</li>
  * <li>creation of sub-contexts</li>
  * </ul>
- *
- * @@version 0.20
  */
 public class PPTGraphics2D extends Graphics2D {
+
     public static final int ACTION_DRAW = 0;
     public static final int ACTION_FILL = 1;
     protected static final float TEXT_MIN_ESCAPE = ( float ) ( FastMath.PI
@@ -182,15 +180,12 @@ public class PPTGraphics2D extends Graphics2D {
 
     /**
      * Create a Graphics2D which will paint in a PPT Slide context. It will use
-     * a black background, a default white foreground,
-     * and a default stroke width of 1 pixel.
+     * a black background, a default white foreground, and a default stroke
+     * width of 1 pixel.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
+     * @param pptSlide the slide
+     * @param imWidth  the slide width
+     * @param imHeight the slide height
      */
     public PPTGraphics2D( final HSLFSlide pptSlide,
                           final float imWidth,
@@ -202,16 +197,11 @@ public class PPTGraphics2D extends Graphics2D {
     /**
      * Create a Graphics2D which will paint in a PPT Slide context.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
-     * @param background
-     *            the slide background
-     * @param foreground
-     *            the slide foreground
+     * @param pptSlide   the slide
+     * @param imWidth    the slide width
+     * @param imHeight   the slide height
+     * @param background the slide background
+     * @param foreground the slide foreground
      */
     public PPTGraphics2D( final HSLFSlide pptSlide,
                           final float imWidth,
@@ -226,14 +216,10 @@ public class PPTGraphics2D extends Graphics2D {
      * Create a Graphics2D which will paint in a PPT Slide context. It will use
      * a black background and a default white foreground.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
-     * @param strokeValue
-     *            the stroke width
+     * @param pptSlide    the slide
+     * @param imWidth     the slide width
+     * @param imHeight    the slide height
+     * @param strokeValue the stroke width
      */
     public PPTGraphics2D( final HSLFSlide pptSlide,
                           final float imWidth,
@@ -251,18 +237,12 @@ public class PPTGraphics2D extends Graphics2D {
     /**
      * Create a Graphics2D which will paint in a PPT Slide context.
      *
-     * @param pptSlide
-     *            the slide
-     * @param imWidth
-     *            the slide width
-     * @param imHeight
-     *            the slide height
-     * @param background
-     *            the slide background
-     * @param foreground
-     *            the slide foreground
-     * @param strokeValue
-     *            the stroke width
+     * @param pptSlide    the slide
+     * @param imWidth     the slide width
+     * @param imHeight    the slide height
+     * @param background  the slide background
+     * @param foreground  the slide foreground
+     * @param strokeValue the stroke width
      */
     public PPTGraphics2D( final HSLFSlide pptSlide,
                           final float imWidth,
@@ -291,8 +271,7 @@ public class PPTGraphics2D extends Graphics2D {
     /**
      * Copy constructor.
      *
-     * @param pptG2d
-     *            the Graphics2D used for the PPT conversion
+     * @param pptG2d the Graphics2D used for the PPT conversion
      */
     public PPTGraphics2D( final PPTGraphics2D pptG2d ) {
         trans = ( AffineTransform ) pptG2d.trans.clone();
@@ -319,8 +298,7 @@ public class PPTGraphics2D extends Graphics2D {
      * Force the Locale to retrieve the Font names. Note that by default the
      * default Locale on the Machine will be used.
      *
-     * @param locale
-     *            the Locale
+     * @param locale the Locale
      */
     public void setLocale( final Locale locale ) {
         this.locale = locale;
@@ -330,8 +308,7 @@ public class PPTGraphics2D extends Graphics2D {
      * Force the Locale to retrieve the Font names. Note that by default the
      * default Locale on the Machine will be used.
      *
-     * @param languageTag
-     *            the language tag
+     * @param languageTag the language tag
      */
     public void setLocale( final String languageTag ) {
         locale = Locale.forLanguageTag( languageTag );
@@ -393,7 +370,9 @@ public class PPTGraphics2D extends Graphics2D {
         final PPTGraphics2D pptgraphics2d = new PPTGraphics2D( this );
 
         return pptgraphics2d;
-    }    @Override
+    }
+
+    @Override
     public void addRenderingHints( final Map< ?, ? > map ) {
         g2D.addRenderingHints( map );
     }
@@ -410,7 +389,9 @@ public class PPTGraphics2D extends Graphics2D {
 
     @Override
     public void setPaintMode() {
-    }    @Override
+    }
+
+    @Override
     public void clip( Shape shape ) {
         shape = ShapeUtilities.createTransformedShape( shape, trans );
         if ( deviceclip != null ) {
@@ -484,8 +465,7 @@ public class PPTGraphics2D extends Graphics2D {
     /**
      * Set the clipping for the next graphic orders.
      *
-     * @param shape
-     *            the Clipping Shape
+     * @param shape the Clipping Shape
      */
     @Override
     public void setClip( final Shape shape ) {
@@ -791,8 +771,7 @@ public class PPTGraphics2D extends Graphics2D {
     /**
      * Creates a picture Shape.
      *
-     * @param data
-     *            the picture data
+     * @param data the picture data
      * @return the picture Shape
      */
     protected HSLFPictureShape doCreatePicture( final HSLFPictureData data ) {
@@ -803,8 +782,7 @@ public class PPTGraphics2D extends Graphics2D {
     /**
      * Add the Shape to the Slide.
      *
-     * @param shape
-     *            the Shape
+     * @param shape the Shape
      */
     protected void addShape( final HSLFShape shape ) {
         shape.setSheet( slide );
@@ -813,8 +791,8 @@ public class PPTGraphics2D extends Graphics2D {
 
     /**
      * Create a PNG image as a byte array from a rendered Image. PNG is chosen
-     * because JPEG
-     * seems not adapted to batik or POI (inverts colors in the resulted image).
+     * because JPEG seems not adapted to batik or POI (inverts colors in the
+     * resulted image).
      */
     private byte[] getImageData( final Image image,
                                  final int iWidth,
@@ -921,11 +899,9 @@ public class PPTGraphics2D extends Graphics2D {
 
     /**
      * Return true if the Shape can be drawn. The default implementation is if
-     * both the width and height of the Shape
-     * are greater than 1.
+     * both the width and height of the Shape are greater than 1.
      *
-     * @param shape
-     *            the Shape
+     * @param shape the Shape
      * @return true if the Shape can be drawn
      */
     protected boolean acceptDrawShape( final Shape shape ) {
@@ -940,11 +916,9 @@ public class PPTGraphics2D extends Graphics2D {
 
     /**
      * Return true if the Shape can be filled. The default implementation is if
-     * both the width and height of the Shape
-     * are greater than 1.
+     * both the width and height of the Shape are greater than 1.
      *
-     * @param shape
-     *            the Shape
+     * @param shape the Shape
      * @return true if the Shape can be drawn
      */
     protected boolean acceptFillShape( final Shape shape ) {
@@ -1339,8 +1313,7 @@ public class PPTGraphics2D extends Graphics2D {
     /**
      * Creates an AutoShape.
      *
-     * @param type
-     *            the AutoShape type
+     * @param type the AutoShape type
      * @return the AutoShape
      */
     protected HSLFAutoShape doCreateAutoShape( final ShapeType type ) {
@@ -1438,7 +1411,9 @@ public class PPTGraphics2D extends Graphics2D {
         else {
             setShapeFillProperties( recp );
         }
-    }    @Override
+    }
+
+    @Override
     public Color getBackground() {
         return Color.WHITE;
     }
@@ -1499,11 +1474,10 @@ public class PPTGraphics2D extends Graphics2D {
 
     /**
      * This method will be called after the Shape properties has been set by
-     * this class, to add
-     * other user properties to the Shape. Do nothing by default.
+     * this class, to add other user properties to the Shape. Do nothing by
+     * default.
      *
-     * @param shape
-     *            the Shape
+     * @param shape the Shape
      */
     protected void setShapeFillingAdditionalProperties( final HSLFSimpleShape shape ) {
     }
@@ -1550,7 +1524,9 @@ public class PPTGraphics2D extends Graphics2D {
         else {
             doAddShape( free, shape, type );
         }
-    }    @Override
+    }
+
+    @Override
     public Composite getComposite() {
         return g2D.getComposite();
     }
@@ -1711,7 +1687,9 @@ public class PPTGraphics2D extends Graphics2D {
            .get( 0 )
            .setTextAlign( TextParagraph.TextAlign.LEFT );
         addShape( txt );
-    }    @Override
+    }
+
+    @Override
     public FontRenderContext getFontRenderContext() {
         g2D.setTransform( trans );
         return g2D.getFontRenderContext();
@@ -1743,7 +1721,9 @@ public class PPTGraphics2D extends Graphics2D {
         else {
             return false;
         }
-    }    @Override
+    }
+
+    @Override
     public Paint getPaint() {
         return paint;
     }
@@ -1778,7 +1758,9 @@ public class PPTGraphics2D extends Graphics2D {
         }
 
         return outputShape;
-    }    @Override
+    }
+
+    @Override
     public Object getRenderingHint( final java.awt.RenderingHints.Key key ) {
         return g2D.getRenderingHint( key );
     }
@@ -1831,7 +1813,9 @@ public class PPTGraphics2D extends Graphics2D {
         }
         graphics2d.dispose();
         return bufferedimage;
-    }    @Override
+    }
+
+    @Override
     public RenderingHints getRenderingHints() {
         return g2D.getRenderingHints();
     }
@@ -1879,7 +1863,9 @@ public class PPTGraphics2D extends Graphics2D {
                                   observer );
         }
         return buf;
-    }    @Override
+    }
+
+    @Override
     public Stroke getStroke() {
         return basicStroke;
     }
@@ -1888,8 +1874,6 @@ public class PPTGraphics2D extends Graphics2D {
     public AffineTransform getTransform() {
         return ( AffineTransform ) trans.clone();
     }
-
-
 
     @Override
     public void rotate( final double theta ) {
@@ -1913,18 +1897,10 @@ public class PPTGraphics2D extends Graphics2D {
     public void setBackground( final Color aColor ) {
     }
 
-
-
-
-
-
-
     @Override
     public void setComposite( final Composite composite ) {
         g2D.setComposite( composite );
     }
-
-
 
     @Override
     public void setPaint( final Paint paint ) {
@@ -1939,8 +1915,6 @@ public class PPTGraphics2D extends Graphics2D {
             }
         }
     }
-
-
 
     @Override
     public void setRenderingHint( final java.awt.RenderingHints.Key key,
@@ -2010,8 +1984,6 @@ public class PPTGraphics2D extends Graphics2D {
         trans = ( AffineTransform ) tr.clone();
     }
 
-
-
     @Override
     public void shear( final double shx,
                        final double shy ) {
@@ -2022,10 +1994,6 @@ public class PPTGraphics2D extends Graphics2D {
     public void transform( final AffineTransform tr ) {
         trans.concatenate( tr );
     }
-
-
-
-
 
     @Override
     public void translate( final double x,

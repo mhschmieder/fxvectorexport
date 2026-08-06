@@ -28,14 +28,10 @@
  * http://j661.sourceforge.net
  */
 /**
- * This package contains slightly older copies of the JFXConverter project's
- * PPT wrapper for AWT Graphics2D commands, as the self-contained optional JAR
- * for these classes that matches the referenced version of the jfxconverter
- * JAR, unfortunately caused some integration issues, and there hasn't been
- * time to update the entire package to later versions (including POI updates).
- *
- * @version 1.0
- *
- * @author Mark Schmieder
+ * This package contains slightly older copies of the JFXConverter project's PPT
+ * wrapper for AWT Graphics2D commands, as the self-contained optional JAR for
+ * these classes that matches the referenced version of the jfxconverter JAR,
+ * unfortunately caused some integration issues, and there hasn't been time to
+ * update the entire package to later versions (including POI updates).
  */
 package org.jfxconverter.drivers.ppt;

@@ -117,9 +117,8 @@ public final class FxConverterDemoApplication extends Application {
         }
         catch ( final Throwable throwable ) {
             throwable.printStackTrace();
-            System.err.println(
-                    "Exiting due to error while starting "
-                    + "FxConverterDemoApplication." ); //$NON-NLS-1$
+            System.err.println( "Exiting due to error while starting "
+                                + "FxConverterDemoApplication." ); //$NON-NLS-1$
             Platform.exit();
         }
     }

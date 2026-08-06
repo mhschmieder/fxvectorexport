@@ -73,6 +73,7 @@ import javafx.scene.effect.InnerShadow;
  */
 public class PPTJFXGraphics2D extends PPTGraphics2D
         implements ExtendedGraphics2D< Node, Effect > {
+
     private final Stack< HSLFGroupShape > groups = new Stack<>();
     private boolean supportGroups = false;
     private HSLFGroupShape curGroup = null;
